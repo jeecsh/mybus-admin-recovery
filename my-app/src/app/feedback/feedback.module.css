@@ -1,0 +1,101 @@
+.container {
+    margin: 0 auto; /* Center horizontally */
+    padding: 20px; /* Add padding */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff; /* White background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    margin-top: 100px; /* Space from the top */
+    width: 90%; /* Full width minus some space for margins */
+}
+
+.h1 {
+    text-align: left; /* Align title to the left */
+    margin-bottom: 20px; /* Space below title */
+    color: #1e3a8a; /* Dark blue */
+    font-size: 40px; /* Title font size */
+    font-weight: 600; /* Bold title */
+    width: 100%; /* Full width */
+}
+.content {
+    flex: 1;
+    margin-left: 300px; /* Offset for the sidebar */
+    padding: 20px;
+    transition: margin-left 0.3s ease; /* Smooth transition when sidebar toggles */
+  }
+  
+  .content.shifted {
+    margin-left: 90px; /* Adjusted margin when sidebar is closed */
+  }
+.feedbackList {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* No padding */
+    margin-left: 0; /* Align list to the left */
+}
+
+.feedbackItem {
+    background-color: #ffffff; /* White background */
+    border: 1px solid #d1d5db; /* Light gray border */
+    padding: 20px; /* Inner spacing */
+    margin-bottom: 12px; /* Space between items */
+    border-radius: 15px; /* Rounded corners */
+    position: relative; /* For absolute positioning of delete button */
+    transition: all 0.3s ease; /* Smooth transition */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* Soft shadow */
+}
+
+.feedbackItem:hover {
+    background-color: #e0f2fe; /* Light blue on hover */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* Shadow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.feedbackItem p {
+    margin: 0; /* Remove default margin */
+    color: #374151; /* Dark gray text */
+    font-size: 16px; /* Feedback text size */
+}
+
+.feedbackItem small {
+    display: block; /* Display on a new line */
+    margin-top: 10px; /* Space above */
+    color: #6b7280; /* Gray text for date */
+    font-size: 12px; /* Smaller font size */
+}
+
+.deleteBtn {
+    position: absolute; /* Position button within the item */
+    right: 10px; /* Space from the right */
+    top: 10px; /* Space from the top */
+    background-color: #3b82f6; /* Blue background */
+    color: white; /* White text */
+    padding: 6px 12px; /* Inner spacing */
+    border: none; /* No border */
+    border-radius: 15px; /* Rounded corners */
+    cursor: pointer; /* Pointer on hover */
+    font-size: 12px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth background color change */
+}
+
+.deleteBtn:hover {
+    background-color: #2563eb; /* Darker blue on hover */
+}
+
+.deleteAllBtn {
+    padding: 0.75em 1.5em;
+    background-color: transparent; /* Transparent background for outlined button */
+    color: #032975; /* Button text color */
+    border: 2px solid #032975; /* Blue border for outlined button */
+    border-radius: 15px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
+    font-size: 16px; /* Button font size */
+    margin-top: 1em; /* Space above the button */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+.deleteAllBtn:hover {
+    background-color: #032975; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+    color: white;
+}

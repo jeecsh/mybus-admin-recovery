@@ -1,0 +1,13 @@
+.routeDetails {
+    color: #1e3a8a;
+  }
+  
+  .routeDetails h5 {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .routeDetails p {
+    margin: 8px 0;
+  }
+  

@@ -1,0 +1,103 @@
+.container {
+    display: flex;
+    background: #ffffff;
+    width: 100%;
+    margin-top: 60px;
+  }
+  
+  .navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    background-color: #ffffff;
+  }
+  
+  .mainContent {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+    margin-left: 250px;
+    padding: 20px;
+    margin-top: 60px;
+  }
+  
+  .mainContent.shifted {
+    margin-left: 90px;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    
+  }
+  
+  .card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s ease-in-out;
+  box-shadow: 0 4px 8px rgba(3, 41, 117, 0.2), 0 6px 20px rgba(3, 41, 117, 0.15);
+
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .icon {
+    font-size: 2rem;
+    margin-right: 10px;
+  }
+  
+  .value {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .normal {
+    color: #4caf50;
+  }
+  
+  .warning {
+    color: #ff5722;
+  }
+  
+  .smallText {
+    font-size: 0.8rem;
+    color: #777;
+  }
+  
+  .progressBar {
+    background: #e0e0e0;
+    border-radius: 8px;
+    height: 10px;
+    overflow: hidden;
+  }
+  
+  .progressFill {
+    background: #3b82f6;
+    height: 100%;
+  }
+  
+  .button {
+    background: #3b82f6;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .button:hover {
+    background: #2563eb;
+  }
+  

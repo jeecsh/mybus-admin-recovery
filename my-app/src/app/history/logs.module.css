@@ -1,0 +1,98 @@
+/* logs.module.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+
+    margin-top: 70px;
+    overflow-y: hidden;
+overflow-x: hidden;}
+  
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .mainContent {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    flex: 1;
+  }
+  
+  .logsContainer {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    margin-left: 100px;
+  }
+  
+  .pageTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color:#032975 ;
+  }
+  
+  .noLogs {
+    font-size: 1.2rem;
+    color: #888;
+  }
+  
+  .logCard {
+    background-color: #ffffff;
+    padding: 15px 20px;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 10px;
+    width: 100%;
+  }
+  
+  .cardContent {
+    width: 100%;
+  }
+  
+  .timestamp {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #555;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .icon {
+    color: #ff8c00;
+    margin-right: 10px;
+  }
+  
+  .logMessage {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .daysRemaining {
+    font-size: 0.9rem; /* Smaller font size */
+    color: #888; /* Gray color */
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+    margin-left: 300px;
+  }
+
+.content {
+    flex: 1;
+    margin-left: 300px; /* Offset for the sidebar */
+    padding: 20px;
+    transition: margin-left 0.3s ease; /* Smooth transition when sidebar toggles */
+  }
+  
+  .content.shifted {
+    margin-left: 90px; /* Adjusted margin when sidebar is closed */
+  }
+  

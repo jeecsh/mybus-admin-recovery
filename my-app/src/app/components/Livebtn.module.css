@@ -1,0 +1,49 @@
+/* LiveTrackingButton.module.css */
+
+/* Style for the Live Tracking Button */
+.liveTrackingBtn {
+    margin-top: 20px;
+    background-color: #032975;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .liveTrackingBtn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  /* Modal styling */
+  .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 900px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  /* Modal title styling */
+  .modalTitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color:#032975;
+    margin-left: 50px;
+  }
+  
+  /* Add any other styling for the map container */
+  

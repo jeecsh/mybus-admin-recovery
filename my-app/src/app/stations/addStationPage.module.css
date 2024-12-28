@@ -1,0 +1,109 @@
+  .container {
+    margin: auto;
+    padding: 1em;
+    margin-top: 70px;
+    background: #ffffff;  
+    width: 100%;
+height: 100vh;
+  }           
+  .content {
+    flex: 1;
+    margin-left: 300px; /* Offset for the sidebar */
+    padding: 20px;
+    transition: margin-left 0.3s ease; /* Smooth transition when sidebar toggles */
+  }
+  
+  .content.shifted {
+    margin-left: 70px; /* Adjusted margin when sidebar is closed */
+  }
+                                
+
+  .heading {
+    text-align: center;
+    margin-bottom: 1em;
+    color: #032975; /* Main blue color for heading */
+    font-size: 40px; /* Larger font size for emphasis */
+    margin-right: 650px;
+  }
+  
+  .error {
+    color: red;
+    text-align: center;
+  }
+  
+  .success {
+    color: green;
+    text-align: center;
+  }
+  
+  .formGroup {
+    margin-bottom: 1.5em; /* More space between form groups */
+  }
+  
+  .formWrapper {
+    display: flex;
+    flex-direction: row; /* Arrange items side by side */
+    gap: 2em; /* Space between form and map */
+  }
+  
+  .formSection {
+    flex: 1; /* Allow form to take available space */
+  }
+  
+  .mapSection {
+    flex: 1; /* Allow map to take available space */
+    min-width: 300px; /* Ensure map has a minimum width */
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 0.5em;
+    color: #032975; /* Main blue color for labels */
+    font-weight: bold; /* Bold labels for emphasis */
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.75em; /* Increased padding for better touch */
+    border: 1px solid #ccc; /* Basic border */
+    border-radius: 15px; /* Rounded corners */
+    transition: border-color 0.3s; /* Smooth transition on focus */
+  }
+  
+  .input:focus {
+    border-color: #0070f3; /* Blue border on focus */
+    outline: none; /* Remove default outline */
+  }
+  
+  .button {
+    background-color: transparent; /* Transparent background for outlined button */
+    color: #0070f3; /* Button text color */
+    border: 2px solid #0070f3; /* Blue border for outlined button */
+    padding: 0.5em 1em;
+    cursor: pointer;
+    margin-top: 1em;
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
+
+  }
+  .button1 {
+    background-color: transparent; /* Transparent background for outlined button */
+    color: #012e61; /* Button text color */
+    border: 2px solid #02254d; /* Blue border for outlined button */
+    padding: 0.5em 1em;
+    cursor: pointer;
+    margin-top: 1em;
+    border-radius: 15px; /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
+    width: 100%;
+  }
+  
+  .button:hover {
+    background-color: #0070f3; /* Blue background on hover */
+    color: white; /* White text on hover */
+  }
+  .button1:hover {
+    background-color: #002c5e; /* Blue background on hover */
+    color: white; /* White text on hover */
+  }
+  

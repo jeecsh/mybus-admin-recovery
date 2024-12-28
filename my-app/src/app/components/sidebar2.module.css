@@ -1,0 +1,119 @@
+/* sidebar.module.css */
+
+/* Default styles for the sidebar */
+.sidebar {
+    width: 250px; /* Set initial sidebar width */
+    background-color: transparent; /* Dark blue background */
+    position: fixed; /* Keeps the sidebar fixed on the left */
+    top: 70px; /* Adjust to match the height of the Navbar */
+    bottom: 0;
+    left: 0;
+    overflow: hidden; /* Prevents overflow when collapsed */
+    z-index: 900; /* Ensure it's above other content */
+    transition: all 0.3s ease; /* Smooth transition for sidebar width */
+    font-family: Manrope;
+}
+
+/* Sidebar open/closed states */
+.sidebar.open {
+    width: 250px; /* Open width */
+}
+
+.sidebar.closed {
+    width: 60px; /* Closed width */
+}
+
+/* Menu button to toggle sidebar visibility */
+.menuButton {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px; /* Menu button on the top-right corner */
+    font-size: 30px; /* Adjust the size of the icon */
+    margin-bottom: 90px;
+}
+
+/* Styling for the sidebar sections */
+.sidebar hr {
+    margin-top: 7px;
+    height: 0px;
+}
+
+.sidebar .center {
+    padding-left: 6px;
+    margin-top: 50px; /* Adjust spacing from the top */
+    margin-bottom: 20px; /* Add space at the bottom to create margin before the bottom section */
+}
+
+.sidebar .center ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar .center .title {
+    font-size: 11px;
+    color: #ffb51e;
+    font-weight: bold;
+    margin-bottom: 10px; /* Space below the title */
+}
+
+.sidebar .center li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    position: relative; /* Allows positioning of the pseudo-element */
+    color: #ffffff;
+    transition: color 0.3s ease; /* Smooth transition for text color */
+}
+
+/* Icon hover effect */
+.sidebar .center li:hover .icon {
+    color: #ffb51e; /* Change icon color on hover */
+}
+
+.sidebar .center a {
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* Remove underline */
+    color: inherit;
+    width: 100%;
+}
+
+.sidebar .center .icon {
+    font-size: 23px;
+    color: white;
+    margin-right: 30px; /* Space between icon and text */
+}
+
+/* Bottom section with color options */
+.sidebar .bottom {
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    margin-left: 18px;
+    margin-top: auto; /* Pushes the bottom content to the bottom */
+    margin-top: 30px; /* Add space between the menu items and the bottom section */
+}
+
+.sidebar .bottom .colorOptions {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 1px solid rgb(194, 194, 193);
+    cursor: pointer;
+}
+
+.sidebar .bottom .colorOptions:nth-child(1) {
+    background-color: whitesmoke;
+    margin-right: 5px;
+}
+
+.sidebar .bottom .colorOptions:nth-child(2) {
+    background-color: rgb(32, 32, 32);
+}

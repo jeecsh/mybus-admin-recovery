@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  height: auto;
+  background: #f8f8f8;
+  width: 100%;
+}
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  background-color: #fff;
+  transition: transform 0.5s ease;
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
+}
+
+.sidebar {
+  transition: transform 0.5s ease, width 0.3s ease;
+  width: 250px;
+  background-color: #002b5b;
+}
+
+.sidebar.closed {
+  width: 0;
+  overflow: hidden;
+}
+
+.sidebar.hidden {
+  transform: translateX(-300%); /* Slide the sidebar out of the screen */
+
+}
+
+.iconLeft {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  left: 50px;
+  top: -200px;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.mainContent {
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+  margin-left: 200px;
+}
+
+.mainContent.shifted {
+  margin-left: 0;
+}
+
+
+.mainContent.analysisActive {
+  margin-left: 0;
+  transition: margin-left 0.3s ease, background-color 0.5s ease;
+  width: 100%;
+}
+
+.tableWrapper {
+  position: relative;
+  padding-top: 40px;
+}
+
+.analysisSection {
+  transition: background-color 0.5s ease;
+}
+
+.analysisSection.analysisBg {
+  background-color: blue;
+}

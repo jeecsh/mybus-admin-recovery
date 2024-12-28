@@ -1,0 +1,11 @@
+.mapContainer {
+    width: 600px; /* Fixed width for the map container */
+    height: 400px; /* Fixed height for the map container */
+    margin: 0 auto; /* Center the map on the page */
+    border: 2px solid #ddd; /* Optional: border around the map */
+    border-radius: 8px; /* Optional: rounded corners for the map container */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+    overflow: hidden; /* Prevent child content from overflowing */
+    background-color: white; /* Ensure the map background is clean */
+  }
+  

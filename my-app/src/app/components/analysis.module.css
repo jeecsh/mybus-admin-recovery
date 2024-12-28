@@ -1,0 +1,99 @@
+.cont{
+    background-color: #032975;
+    height: 100vh;
+    width: 100%;
+}/* Container for the entire page */
+
+.container{
+    display:flex ;
+    align-items: center;
+    justify-content: center;
+}
+/* Title of the page */
+.cont h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+/* Data Upload Section */
+.uploadSection {
+    margin-bottom: 30px;
+}
+
+.uploadSection h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.fileInput {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.preview {
+    margin-top: 20px;
+}
+
+.preview h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+/* Scoped table styles inside .uploadSection */
+.uploadSection table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.uploadSection table th, .uploadSection table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.uploadSection table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.uploadSection table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Date Filter Section */
+.dateFilterSection {
+    margin-bottom: 30px;
+}
+
+.dateFilterSection h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.dateInput {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 200px;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Output Section (Empty for now) */
+.outputSection {
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 2px solid #ccc;
+    background-color: #f9f9f9;
+}

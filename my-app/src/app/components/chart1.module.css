@@ -1,0 +1,41 @@
+.heroSection {
+    position: relative;
+    margin: 0 auto; /* Center horizontally */
+    padding: 40px 20px; /* Padding for content */
+    background-color: #ffffff; /* White background */
+    border-radius: 20px; /* Rounded corners for modern look */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15); /* Shadow for the entire section */
+    max-width: 1000px; /* Restrict width for responsiveness */
+    display: flex;
+    flex-direction: column; /* Stack heading and charts vertically */
+    align-items: center; /* Center child content */
+    text-align: center; /* Center-align text content */
+    height: 400px;
+}
+
+/* Heading styling */
+.h1 {
+    font-size: 2rem; /* Adjust heading size */
+    color: #1e3a8a; /* Dark blue */
+    margin-bottom: 30px; /* Space between heading and charts */
+    font-weight: 700; /* Bold for emphasis */
+}
+
+/* Chart container styling */
+.chartContainer {
+    display: flex;
+    justify-content: center; /* Center content */
+    gap: 20px; /* Space between charts */
+    width: 100%; /* Full width within the section */
+    max-width: 900px; /* Restrict chart container width */
+}
+
+/* Individual chart styling */
+.lineChart, .barChart {
+    flex: 1; /* Make charts flexible to fit within row */
+    min-width: 300px; /* Minimum width for smaller screens */
+    max-width: 45%; /* Restrict maximum width */
+    height: 300px; /* Fixed height for consistency */
+    background-color: transparent; /* Light background */
+    border-radius: 15px; /* Rounded corners for charts */
+}

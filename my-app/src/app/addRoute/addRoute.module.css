@@ -1,0 +1,149 @@
+.pageLayout {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff; /* White background for the main layout */
+}
+
+
+.mainContent {
+  display: flex;
+  flex-grow: 1;
+  margin-top: 57px; /* Height of the navbar */
+  transition: margin-left 0.3s ease; /* Smooth transition when sidebar toggles */
+  width: 90%;
+}
+
+
+.content {
+  flex: 1;
+  margin-left: 300px; /* Offset for the sidebar */
+  padding: 20px;
+  transition: margin-left 0.3s ease; /* Smooth transition when sidebar toggles */
+}
+
+.content.shifted {
+  margin-left: 90px; /* Adjusted margin when sidebar is closed */
+}
+
+.title {
+  color: #032975; /* Main color for titles */
+  margin-bottom: 40px; /* Spacing below titles */
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  color: #032975; /* Main color for labels */
+  font-weight: bold; /* Bold labels for emphasis */
+}
+
+.inputField, .colorPicker, .textareaField {
+  width: 100%;
+  padding: 10px; /* More padding for a modern look */
+  border-radius: 15px;
+  border: 1px solid lightgray;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.colorPicker {
+  height: 40px; /* Increased height for better visibility */
+}
+
+.textareaField {
+  resize: vertical;
+  min-height: 100px; /* Minimum height for the text area */
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background-color: transparent; /* Transparent background for outlined button */
+  color: #032975; /* Blue color for button text */
+  border: 2px solid #032975; /* Blue border for outlined button */
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
+  margin-top: 20px;
+  width: 100px;
+}
+
+.submitButton:hover {
+  background-color: #032975; /* Blue background on hover */
+  color: white; /* White text on hover */
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.icon {
+  font-size: 2rem;
+  margin-right: 10px;
+}
+
+.value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.normal {
+  color: #4caf50;
+}
+
+.warning {
+  color: #ff5722;
+}
+
+.smallText {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.progressBar {
+  background: #e0e0e0;
+  border-radius: 8px;
+  height: 10px;
+  overflow: hidden;
+}
+
+.progressFill {
+  background: #3b82f6;
+  height: 100%;
+}
+
+.button {
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.button:hover {
+  background: #2563eb;
+}

@@ -1,0 +1,80 @@
+@font-face {
+    font-family: "Manrope";
+    src: url("/fonts/Manrope/Manrope-VariableFont_wght.ttf") format("truetype");
+    font-weight: 200 800; /* Define weight range */
+    font-style: normal;
+  }
+  
+  .manrope-200 {
+    font-family: "Manrope", sans-serif;
+    font-weight: 200; /* Extra-light */
+  }
+  
+  .manrope-300 {
+    font-family: "Manrope", sans-serif;
+    font-weight: 300; /* Light */
+  }
+  
+  .manrope-400 {
+    font-family: "Manrope", sans-serif;
+    font-weight: 400; /* Regular */
+  }
+  
+  .manrope-500 {
+    font-family: "Manrope", sans-serif;
+    font-weight: 500; /* Medium */
+  }
+  
+  .manrope-600 {
+    font-family: "Manrope", sans-serif;
+    font-weight: 600; /* Semi-bold */
+  }
+  
+  .manrope-700 {
+    font-family: "Manrope", sans-serif;
+    font-weight: 700; /* Bold */
+  }
+  
+  .manrope-800 {
+    font-family: "Manrope", sans-serif;
+    font-weight: 800; /* Extra-bold */
+  }
+  
+  /* Font: Orbitron */
+  @font-face {
+    font-family: "Orbitron";
+    src: url("/fonts/Orbitron/Orbitron-VariableFont_wght.ttf") format("truetype");
+    font-weight: 400 900; /* Define weight range */
+    font-style: normal;
+  }
+  
+  .orbitron-400 {
+    font-family: "Orbitron", sans-serif;
+    font-weight: 400; /* Regular */
+  }
+  
+  .orbitron-500 {
+    font-family: "Orbitron", sans-serif;
+    font-weight: 500; /* Medium */
+  }
+  
+  .orbitron-600 {
+    font-family: "Orbitron", sans-serif;
+    font-weight: 600; /* Semi-bold */
+  }
+  
+  .orbitron-700 {
+    font-family: "Orbitron", sans-serif;
+    font-weight: 700; /* Bold */
+  }
+  
+  .orbitron-800 {
+    font-family: "Orbitron", sans-serif;
+    font-weight: 800; /* Extra-bold */
+  }
+  
+  .orbitron-900 {
+    font-family: "Orbitron", sans-serif;
+    font-weight: 900; /* Black */
+  }
+  
