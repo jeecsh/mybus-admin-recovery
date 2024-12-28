@@ -1,99 +1,132 @@
-.cont{
-    background-color: #032975;
-    height: 100vh;
-    width: 100%;
-}/* Container for the entire page */
-
-.container{
-    display:flex ;
-    align-items: center;
+/* Global container for centering and layout */
+.cont {
+    background-color: #0a1931;
+    height: auto;
+    display: flex;
     justify-content: center;
-}
-/* Title of the page */
-.cont h1 {
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    padding: 20px;
+    margin-top: 100px;
+    overflow-y: auto; 
+  }
+  
+  /* Inner container for main content */
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: #1a2a5c;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+    overflow: auto;
+  }
+  
+  /* Header styles */
+  .header {
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
+    color: #e3f2fd;
+    margin-bottom: 20px;
+  }
+  
+  /* Section styling */
+  .section {
     margin-bottom: 30px;
-}
-
-/* Data Upload Section */
-.uploadSection {
-    margin-bottom: 30px;
-}
-
-.uploadSection h2 {
-    font-size: 1.5rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.8rem;
+    color: #bbdefb;
     margin-bottom: 10px;
-}
-
-.fileInput {
-    display: block;
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  }
+  
+  /* Dropdown styling */
+  .fileInput {
     width: 100%;
-    box-sizing: border-box;
-}
-
-.preview {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #2d3a7a;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .fileInput:focus {
+    outline: none;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Table styles */
+  .preview {
     margin-top: 20px;
-}
-
-.preview h3 {
-    font-size: 1.25rem;
-    margin-bottom: 10px;
-}
-
-/* Scoped table styles inside .uploadSection */
-.uploadSection table {
+  }
+  
+  .table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-}
-
-.uploadSection table th, .uploadSection table td {
-    padding: 10px;
-    border: 1px solid #ccc;
+    background-color: #273469;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .tableHeader,
+  .tableCell {
+    padding: 15px;
     text-align: center;
-}
-
-.uploadSection table th {
-    background-color: #f4f4f4;
+    color: white;
+    font-size: 1rem;
+  }
+  
+  .tableHeader {
+    background-color: #394b8c;
     font-weight: bold;
-}
-
-.uploadSection table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-/* Date Filter Section */
-.dateFilterSection {
-    margin-bottom: 30px;
-}
-
-.dateFilterSection h2 {
+    text-transform: uppercase;
+  }
+  
+  .tableRow:nth-child(even) {
+    background-color: #2e3e77;
+  }
+  
+  .tableRow:nth-child(odd) {
+    background-color: #1d2c61;
+  }
+  
+  /* Date input */
+  .dateInput {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #2d3a7a;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .dateInput:focus {
+    outline: none;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Output section */
+  .outputSection {
+    padding: 20px;
+    background-color: #2b3c6f;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  
+  .outputTitle {
+    color: #bbdefb;
     font-size: 1.5rem;
     margin-bottom: 10px;
-}
-
-.dateInput {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 200px;
-    display: block;
-    margin-top: 10px;
-}
-
-/* Output Section (Empty for now) */
-.outputSection {
-    margin-top: 30px;
-    padding: 20px;
-    border-top: 2px solid #ccc;
-    background-color: #f9f9f9;
-}
+  }
+  

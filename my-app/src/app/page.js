@@ -20,27 +20,30 @@ export default function Home() {
     setIsSidebarOpen((prevState) => !prevState);
   };
 
-  const handleScroll = () => {
-    const analysisPosition = analysisRef.current?.getBoundingClientRect();
-    if (analysisPosition) {
-      if (analysisPosition.top < window.innerHeight / 2) {
-        // If the section is halfway on screen
-        setIsAnalysisActive(true);
-        analysisRef.current.scrollIntoView({ behavior: "smooth" });
-      } else {
-        setIsAnalysisActive(false);
-      }
-    }
+  const scrollToAnalysis = () => {
+    analysisRef.current?.scrollIntoView({ behavior: "smooth" });
+    setIsAnalysisActive(true);
   };
 
   useEffect(() => {
+    const handleScroll = () => {
+      const analysisPosition = analysisRef.current?.getBoundingClientRect();
+      if (analysisPosition) {
+        if (analysisPosition.top < window.innerHeight / 2) {
+          setIsAnalysisActive(true);
+        } else {
+          setIsAnalysisActive(false);
+        }
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <div className={styles.container}>
-      <BusDataListener/>
+      <BusDataListener />
       {/* Navbar */}
       {!isAnalysisActive && (
         <header className={styles.navbar}>
@@ -71,6 +74,12 @@ export default function Home() {
           />
           <StationsTable />
           <HeroSection />
+          <button
+            onClick={scrollToAnalysis}
+            className={styles.scrollButton}
+          >
+            Go to Analysis
+          </button>
           <div
             ref={analysisRef}
             className={`${styles.analysisSection} ${

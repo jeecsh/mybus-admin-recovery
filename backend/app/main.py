@@ -1,6 +1,7 @@
 # main.py
 from fastapi import FastAPI
 from app.csv_handler import BusData, save_to_csv, list_files, read_file
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -18,3 +19,14 @@ def list_available_files():
 def get_file_content(filename: str):
     content = read_file(filename)
     return {"data": content}
+
+ 
+
+# Allow requests from the frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
