@@ -15,7 +15,7 @@ export async function GET(req) {
 
     // Get the raw data
     const busLocationData = busLocationSnapshot.val();
-    console.log('Raw bus location data:', busLocationData);
+
 
     // Since the data is already in the correct structure, just convert it to the format we need
     const formattedLocation = {
@@ -34,7 +34,7 @@ memory_usage:busLocationData.memory_usage,
 
     };
 
-    console.log('Formatted bus location:', formattedLocation);
+
 
     // Return as an array with one bus (or multiple buses if you have multiple)
     return new Response(

@@ -37,33 +37,48 @@ const LiveTrackingMap = ({ routeId }) => {
     setIsMounted(true);
   }, []);
 
-  const fetchBusLocations = async () => {
-    try {
-      const response = await fetch("/api/getlocations");
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-      const validLocations = data.filter(
-        (bus) =>
-          bus &&
-          bus.latitude &&
-          bus.longitude &&
-          bus.bus_id === routeId &&
-          !isNaN(parseFloat(bus.latitude)) &&
-          !isNaN(parseFloat(bus.longitude))
-      );
+  // SSE for real-time bus locations
+  useEffect(() => {
+    const eventSource = new EventSource('/api/sse');
 
-      if (validLocations.length === 0) {
-        setRouteActive(false);
-      } else {
+    eventSource.onmessage = (event) => {
+      const bus = JSON.parse(event.data); // Parse the incoming data as a single bus object
+
+      // Validate the bus object
+      if (
+        bus &&
+        bus.latitude &&
+        bus.longitude &&
+        bus.bus_id === routeId &&
+        !isNaN(parseFloat(bus.latitude)) &&
+        !isNaN(parseFloat(bus.longitude))
+      ) {
+        // Update the busLocations state with the new bus data
+        setBusLocations((prevLocations) => {
+          // Replace the existing bus data for this bus_id or add it if it doesn't exist
+          const updatedLocations = prevLocations.filter((b) => b.bus_id !== bus.bus_id);
+          return [...updatedLocations, bus];
+        });
+
+        // Update the currentBusDetails if this is the selected bus
+        setCurrentBusDetails((prevDetails) => (prevDetails?.bus_id === bus.bus_id ? bus : prevDetails));
         setRouteActive(true);
-        setBusLocations(validLocations);
-        setCurrentBusDetails(validLocations[0]);
+      } else {
+        setRouteActive(false);
       }
-    } catch (error) {
-      console.error("Error fetching bus locations:", error);
-    }
-  };
+    };
 
+    eventSource.onerror = () => {
+      console.error('SSE connection error');
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, [routeId]);
+
+  // Fetch stations (unchanged)
   const fetchStations = async () => {
     try {
       const response = await fetch("/api/getStation");
@@ -97,10 +112,7 @@ const LiveTrackingMap = ({ routeId }) => {
   };
 
   useEffect(() => {
-    fetchBusLocations();
     fetchStations();
-    const interval = setInterval(fetchBusLocations, 5000); // Re-fetch bus locations every 5 seconds
-    return () => clearInterval(interval); // Clean up the interval on unmount
   }, [routeId]);
 
   const busIcon = new L.Icon({

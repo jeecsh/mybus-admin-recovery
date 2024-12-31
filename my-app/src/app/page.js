@@ -12,7 +12,7 @@ import AnalysisMode from "./components/analysismode";
 import BusDataListener from "./components/busdatalistener";
 
 export default function Home() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isAnalysisActive, setIsAnalysisActive] = useState(false); // Track if the AnalysisMode is active
   const analysisRef = useRef(null); // Ref for the AnalysisMode section
 
@@ -20,10 +20,31 @@ export default function Home() {
     setIsSidebarOpen((prevState) => !prevState);
   };
 
-  const scrollToAnalysis = () => {
-    analysisRef.current?.scrollIntoView({ behavior: "smooth" });
-    setIsAnalysisActive(true);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!analysisRef.current) return;
+  
+      const analysisPosition = analysisRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+  
+      // Check if the top of the analysis section is in the middle of the viewport
+      if (analysisPosition.top < viewportHeight / 2 && analysisPosition.top > 0) {
+        setIsAnalysisActive(true);
+  
+        // Automatically scroll a bit further below the analysis section
+        window.scrollTo({
+          top: window.scrollY + analysisPosition.top + 100, // Scroll an additional 100px
+          behavior: "smooth",
+        });
+      } else {
+        setIsAnalysisActive(false);
+      }
+    };
+  
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,12 +95,7 @@ export default function Home() {
           />
           <StationsTable />
           <HeroSection />
-          <button
-            onClick={scrollToAnalysis}
-            className={styles.scrollButton}
-          >
-            Go to Analysis
-          </button>
+  
           <div
             ref={analysisRef}
             className={`${styles.analysisSection} ${

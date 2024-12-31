@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
 import styles from "./sys.module.css";
@@ -22,46 +22,42 @@ export default function SystemHealth() {
     powerSupply: 'N/A'
   });
 
+  const eventSourceRef = useRef(null);
+
   const toggleSidebar = () => {
-    setIsSidebarOpen((prevState) => !prevState);
+    setIsSidebarOpen((prevState) => !prevState);  
   };
 
   useEffect(() => {
-    const fetchSystemData = async () => {
-      try {
-        const response = await fetch('/api/getlocations');
-        if (!response.ok) {
-          throw new Error('Failed to fetch system data');
+    if (!eventSourceRef.current) {
+      eventSourceRef.current = new EventSource('/api/sse', { withCredentials: true });
+
+      eventSourceRef.current.onmessage = (event) => {
+        const newData = JSON.parse(event.data);
+
+        setSystemData(prevData => ({
+          ...prevData,
+          temperature: parseFloat(newData.temperature) || prevData.temperature,
+          memoryUsage: parseFloat(newData.memory_usage) || prevData.memoryUsage,
+          powerSupply: newData.power_supply || prevData.powerSupply,
+          uptime: newData.uptime || prevData.uptime,
+        }));
+      };
+
+      eventSourceRef.current.onerror = (error) => {
+        console.error('SSE error:', error);
+        if (eventSourceRef.current) {
+          eventSourceRef.current.close();
+          eventSourceRef.current = null;
         }
-        const rawData = await response.json();
-        console.log('Raw data received:', rawData);
-        
-        // Extract the actual data (first item if it's an array)
-        const data = Array.isArray(rawData) ? rawData[0] : rawData;
-        console.log('Processed data:', data);
-
-        if (data) {
-          setSystemData(prevData => ({
-            ...prevData,
-            temperature: parseFloat(data.temperature) || prevData.temperature,
-            memoryUsage: parseFloat(data.memory_usage) || prevData.memoryUsage,
-            powerSupply: data.power_supply || prevData.powerSupply,
-            uptime: data.uptime || prevData.uptime,
-          }));
-        }
-      } catch (error) {
-        console.error('Error fetching system data:', error);
-      }
-    };
-
-    // Initial fetch
-    fetchSystemData();
-
-    // Set up real-time listener using Firebase Realtime Database
-    const realtimeUpdate = setInterval(fetchSystemData, 1000);
+      };
+    }
 
     return () => {
-      clearInterval(realtimeUpdate);
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+        eventSourceRef.current = null;
+      }
     };
   }, []);
 
