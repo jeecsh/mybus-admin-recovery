@@ -2,9 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import TroubleshootIcon from "@mui/icons-material/Troubleshoot";
 import styles from "./analysis.module.css";
+import ChartViewer from "../components/visuals"
+import MostCrowdedTimeChart from "../components/crowdedtime"
+import HeatMapAndBarChart from "../components/crowdeedstation"
 
 const chartCompatibility = {
-  routePopularity: ["bar", "line", "pie"],
+  routePopularity: ["bar", "pie"],  
   mostCrowdedTime: ["line", "histogram"],
   mostCrowdedStation: ["heatmap", "scatter", "pie"],
   estimatedVsActual: ["scatter", "line"],
@@ -18,8 +21,12 @@ const chartCompatibility = {
 
 export default function AnalysisMode() {
   const [csvData, setCsvData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const [dateFilter, setDateFilter] = useState({ start: "", end: "" });
   const [timeFilter, setTimeFilter] = useState({ start: "", end: "" });
+  const [charts, setCharts] = useState({}); 
   const [fileNames, setFileNames] = useState([]);
   const [selectedChartTypes, setSelectedChartTypes] = useState({
     bar: false,
@@ -155,15 +162,17 @@ export default function AnalysisMode() {
 
     return [...new Set(availableCharts)];
   };
-
   const handleGenerateData = async () => {
     const payload = {
-      file: csvData ? csvData[0].join(",") : null,
+      file: csvData ? csvData.map((row) => row.join(",")).join("\n") : null,
       dateFilter,
       timeFilter,
       selectedDataToVisualize,
       selectedChartTypes,
     };
+
+    setIsLoading(true);
+    setError(null);
 
     try {
       const response = await fetch("http://localhost:8000/generate-data", {
@@ -173,36 +182,45 @@ export default function AnalysisMode() {
         },
         body: JSON.stringify(payload),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate charts.");
+      }
+
       const data = await response.json();
-      console.log("Data generated:", data);
-    } catch (error) {
-      console.error("Error generating data:", error);
+      setCharts(data.charts || {});
+    } catch (err) {
+      console.error("Error generating data:", err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          containerRef.current.classList.add(styles.visible);
-        } else {
-          containerRef.current.classList.remove(styles.visible);
+        if (containerRef.current) {
+          if (entry.isIntersecting) {
+            containerRef.current.classList.add(styles.visible);
+          } else {
+            containerRef.current.classList.remove(styles.visible);
+          }
         }
       },
       { threshold: 0.1 }
     );
-
+  
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
-
+  
     return () => {
       if (containerRef.current) {
         observer.unobserve(containerRef.current);
       }
     };
   }, []);
-
+  
   return (
     <div className={styles.cont}>
       <div className={styles.title}>
@@ -367,6 +385,14 @@ export default function AnalysisMode() {
             Generate Data
           </button>
         </section>
+
+      {/* ChartViewer Component */}
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Generated Charts</h2>
+        <ChartViewer charts={charts} />
+        <MostCrowdedTimeChart charts={charts} />
+        <HeatMapAndBarChart charts={charts} />
+      </section>
       </div>
     </div>
   );

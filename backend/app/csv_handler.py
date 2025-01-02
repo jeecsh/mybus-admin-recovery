@@ -12,9 +12,9 @@ class BusData(BaseModel):
     latitude: float
     longitude: float
     passengers: int
-    estimated_time: str
-    date: str
-    time: str
+    estimated: str
+    current_time:str
+  
 
 # Directory to store CSV files
 DATA_DIRECTORY = "data"
@@ -30,6 +30,16 @@ def save_to_csv(bus_data: BusData, filename=None):
 
         # Check if file exists to determine if we need to write headers
         file_exists = os.path.exists(filepath)
+
+        # Extract date and time from current_time string
+        current_time = bus_data.estimated_time  # Replace with actual 'current_time' if necessary
+        date_time_obj = datetime.strptime(current_time, "%Y-%m-%d %H:%M:%S")
+        date = date_time_obj.strftime("%Y-%m-%d")
+        time = date_time_obj.strftime("%H:%M:%S")
+
+        # Update the BusData with the extracted date and time
+        bus_data.date = date
+        bus_data.time = time
 
         with open(filepath, mode="a", newline='') as file:
             writer = csv.writer(file)

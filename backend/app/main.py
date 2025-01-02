@@ -1,7 +1,8 @@
 # main.py
 from fastapi import FastAPI
-from app.csv_handler import BusData, save_to_csv, list_files, read_file
 from fastapi.middleware.cors import CORSMiddleware
+from app.csv_handler import BusData, save_to_csv, list_files, read_file
+from app.visualization_handler import generate_data, DataRequest  # Import DataRequest here
 
 app = FastAPI()
 
@@ -20,7 +21,9 @@ def get_file_content(filename: str):
     content = read_file(filename)
     return {"data": content}
 
- 
+@app.post("/generate-data")
+async def generate_data_route(data: DataRequest):
+    return await generate_data(data)
 
 # Allow requests from the frontend
 app.add_middleware(

@@ -31,6 +31,7 @@ export async function GET(req) {
       uptime:busLocationData.uptime,
       power_supply:busLocationData.power_supply,
 memory_usage:busLocationData.memory_usage,
+current_time: busLocationData.current_time,
 
     };
 

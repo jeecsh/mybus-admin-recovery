@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "./components/navbar";
 import Sidebar from "./components/sidebar";
 import Sidebar2 from "./components/sidebar2"; // New sidebar component
-import HeroSection from "./components/chart1";
 import RoutesOverview from "./components/routes";
 import styles from "./page.module.css";
 import StationsTable from "./components/tabel";
@@ -94,7 +93,7 @@ export default function Home() {
             className={styles.iconLeft}
           />
           <StationsTable />
-          <HeroSection />
+    
   
           <div
             ref={analysisRef}
