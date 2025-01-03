@@ -5,6 +5,8 @@ import styles from "./analysis.module.css";
 import ChartViewer from "../components/visuals"
 import MostCrowdedTimeChart from "../components/crowdedtime"
 import HeatMapAndBarChart from "../components/crowdeedstation"
+import AccuracyCharts from "../components/estimatedvsactuall"
+import PeoplePerTime from "../components/peoplepertime"
 
 const chartCompatibility = {
   routePopularity: ["bar", "pie"],  
@@ -12,7 +14,7 @@ const chartCompatibility = {
   mostCrowdedStation: ["heatmap", "scatter", "pie"],
   estimatedVsActual: ["scatter", "line"],
   passengerGrowth: ["line"],
-  passengerCountPerRouteByDate: ["heatmap", "stackedBar"],
+  passengerCountPerRouteByTime: ["heatmap", "stackedBar"],
   busDelaysPerRoute: ["bar", "line", "pie"],
   busFrequencyByTime: ["histogram", "line"],
   routeStopsAnalysis: ["bar", "heatmap", "pie"],
@@ -43,7 +45,7 @@ export default function AnalysisMode() {
     mostCrowdedStation: false,
     estimatedVsActual: false,
     passengerGrowth: false,
-    passengerCountPerRouteByDate: false,
+    passengerCountPerRouteByTime: false,
     busDelaysPerRoute: false,
     busFrequencyByTime: false,
     routeStopsAnalysis: false,
@@ -125,7 +127,7 @@ export default function AnalysisMode() {
       mostCrowdedStation: true,
       estimatedVsActual: true,
       passengerGrowth: true,
-      passengerCountPerRouteByDate: true,
+      passengerCountPerRouteByTime: true,
       busDelaysPerRoute: true,
       busFrequencyByTime: true,
       routeStopsAnalysis: true,
@@ -140,7 +142,7 @@ export default function AnalysisMode() {
       mostCrowdedStation: false,
       estimatedVsActual: false,
       passengerGrowth: false,
-      passengerCountPerRouteByDate: false,
+      passengerCountPerRouteByTime: false,
       busDelaysPerRoute: false,
       busFrequencyByTime: false,
       routeStopsAnalysis: false,
@@ -199,12 +201,9 @@ export default function AnalysisMode() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (containerRef.current) {
-          if (entry.isIntersecting) {
-            containerRef.current.classList.add(styles.visible);
-          } else {
-            containerRef.current.classList.remove(styles.visible);
-          }
+        if (containerRef.current && entry.isIntersecting) {
+          // Add 'visible' class when the container is first in view
+          containerRef.current.classList.add(styles.visible);
         }
       },
       { threshold: 0.1 }
@@ -214,6 +213,7 @@ export default function AnalysisMode() {
       observer.observe(containerRef.current);
     }
   
+    // Clean up observer when component unmounts or ref changes
     return () => {
       if (containerRef.current) {
         observer.unobserve(containerRef.current);
@@ -392,6 +392,8 @@ export default function AnalysisMode() {
         <ChartViewer charts={charts} />
         <MostCrowdedTimeChart charts={charts} />
         <HeatMapAndBarChart charts={charts} />
+        <AccuracyCharts charts={charts}/>
+        <PeoplePerTime charts={charts}/>
       </section>
       </div>
     </div>
