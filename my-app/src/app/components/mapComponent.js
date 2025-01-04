@@ -12,7 +12,7 @@ const customIcon = L.icon({
   iconAnchor: [50, 50], // Position of the icon anchor (relative to the top left corner of the icon)
 });
 
-// Component to handle map clicks
+  // Component to handle map clicks
 const MapClickHandler = ({ onMapClick }) => {
   useMapEvents({
     click: onMapClick,

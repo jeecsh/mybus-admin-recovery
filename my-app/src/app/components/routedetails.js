@@ -24,12 +24,15 @@ export default function RouteDetails({ routeId }) {
   // Fetch real-time status
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch("/api/getlocations") // Adjust to your real-time status endpoint
+      fetch("/api/sse") // Adjust to your real-time status endpoint
         .then((response) => response.json())
         .then((data) => {
-          // Assume data is an array of route IDs currently active
-          const activeRoutes = new Set(data.map((item) => item.routeId));
-          setStatus(activeRoutes.has(routeId) ? "Active" : "Inactive");
+          // If data is present, set status to "Active", else "Inactive"
+          if (data && data.length > 0) {
+            setStatus("Active");
+          } else {
+            setStatus("Inactive");
+          }
         })
         .catch((error) => {
           console.error("Error fetching real-time status:", error);

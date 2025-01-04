@@ -7,7 +7,7 @@ const parseTimeToTimestamp = (timeString) => {
   const date = new Date(timeString);
   return admin.firestore.Timestamp.fromDate(date);
 };
-
+  
 // POST handler to add a new log entry
 export async function POST(req) {
   try {

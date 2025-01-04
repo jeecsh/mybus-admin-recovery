@@ -1,0 +1,47 @@
+/* Loader overlay that fits within the main content area */
+.loaderContainer {
+  position: absolute; /* Position relative to parent container */
+  top: 0; /* Start at the top of the main content area */
+  left: 0;
+  width: 100%; /* Only take up the width of the main content area */
+  height: 100%; /* Only take up the height of the main content area */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent; /* Slight transparency for overlay effect */
+  z-index: 9999; /* Ensure it appears above other content */
+}
+
+/* Wrapper for loader and text */
+.loaderWrapper {
+  text-align: center;
+}
+
+/* Styling for the loading text */
+.loadingText {
+  font-size: 1.5rem;
+  color: #333; /* Dark gray */
+  margin-top: 20px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  animation: fadeIn 1.5s ease-out;
+}
+
+/* Fade-in animation for the text */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .loadingText {
+    font-size: 1.2rem; /* Smaller font size for mobile */
+  }
+}

@@ -13,7 +13,6 @@ export default function NotificationsPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Track sidebar state
   const [isPopupVisible, setPopupVisible] = useState(false); // Track popup visibility
   const [popupData, setPopupData] = useState(null); // Data to display in the popup
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 

@@ -5,11 +5,13 @@ import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
 import styles from "./logs.module.css";
 import { History } from "@mui/icons-material";
+import Loading from "../components/loading"; // Import the Loading component
+
 
 export default function FeedbackLogs() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [logs, setLogs] = useState([]);
-
+const [loading, setLoading] = useState(true); // Track the loading state
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
   };
@@ -23,6 +25,7 @@ export default function FeedbackLogs() {
         }
         const data = await response.json();
         setLogs(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching logs:", error);
       }
@@ -38,6 +41,11 @@ export default function FeedbackLogs() {
 
   return (
     <div className={styles.container}>
+         {loading ? (
+      <Loading />
+    ) : (
+      <>
+    
       <header className={styles.navbar}>
         <Navbar />
       </header>
@@ -57,6 +65,7 @@ export default function FeedbackLogs() {
         </div>
       </main>
       </div>
+      </> )}
     </div>
   );
 }
@@ -80,6 +89,7 @@ function LogCard({ log }) {
               : `This log will be deleted in ${daysRemaining} days.`}
           </div>
         </div>
+        
       </div>
     );
   }

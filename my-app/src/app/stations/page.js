@@ -9,6 +9,7 @@ import Popup from "../components/pop"; // Import the Popup component
 import "leaflet/dist/leaflet.css";
 import styles from "./addStationPage.module.css";
 import Box from "@mui/material/Box";
+import Loading from "../components/loading";
 import TextField from "@mui/material/TextField";
 
 // Dynamically import the Map component to ensure it only renders on the client side
@@ -26,7 +27,7 @@ export default function AddStationPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Track sidebar state
   const [isPopupVisible, setPopupVisible] = useState(false); // Track popup visibility
   const [popupData, setPopupData] = useState(null); // Data to display in the popup
-
+const [loading,setLoading] = useState(true); // Track the loading state
   useEffect(() => {
     setIsMounted(true); // Ensure map rendering only happens on the client
   }, []);
@@ -42,7 +43,11 @@ export default function AddStationPage() {
         setBusStations(data);
       } catch (error) {
         console.error("Error fetching bus stations:", error);
+        
+
       }
+      setLoading(false); 
+
     };
 
     fetchBusStations();
@@ -130,7 +135,13 @@ export default function AddStationPage() {
   };
 
   return (
+    
     <div className={styles.container}>
+         {loading ? (
+      <Loading />
+    ) : (
+      <>
+    
       <Navbar />
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className={`${styles.content} ${!isSidebarOpen ? styles.shifted : ""}`}>
@@ -202,7 +213,12 @@ export default function AddStationPage() {
           onClose={() => setPopupVisible(false)}
           onConfirm={handleConfirm}
         />
+
+    
+
       )}
+
+      </> )}
     </div>
   );
 }

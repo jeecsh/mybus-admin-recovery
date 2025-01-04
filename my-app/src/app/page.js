@@ -9,15 +9,24 @@ import styles from "./page.module.css";
 import StationsTable from "./components/tabel";
 import AnalysisMode from "./components/analysismode";
 import BusDataListener from "./components/busdatalistener";
+import Loading from "./components/loading"; // Import your Loading component
 
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isAnalysisActive, setIsAnalysisActive] = useState(false); // Track if the AnalysisMode is active
+  const [loading, setLoading] = useState(true); // New loading state
   const analysisRef = useRef(null); // Ref for the AnalysisMode section
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
   };
+
+  // Simulate loading state (could be based on data fetching or any other condition)
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false); // Stop loading after 2 seconds (you can replace this with your own logic)
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,7 +53,6 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   
-
   useEffect(() => {
     const handleScroll = () => {
       const analysisPosition = analysisRef.current?.getBoundingClientRect();
@@ -63,48 +71,54 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <BusDataListener />
-      {/* Navbar */}
-      {!isAnalysisActive && (
-        <header className={styles.navbar}>
-          <Navbar />
-        </header>
-      )}
-
-      {/* Sidebar */}
-      {isAnalysisActive ? (
-        <Sidebar2 /> // Show Sidebar2 during analysis
+      {/* Show Loading screen if page is loading */}
+      {loading ? (
+        <Loading />
       ) : (
-        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      )}
+        <>
+          <BusDataListener />
+          {/* Navbar */}
+          {!isAnalysisActive && (
+            <header className={styles.navbar}>
+              <Navbar />
+            </header>
+          )}
 
-      {/* Main Content */}
-      <main
-        className={`${styles.mainContent} ${
-          !isSidebarOpen ? styles.shifted : ""
-        } ${isAnalysisActive ? styles.analysisActive : ""}`}
-      >
-        <RoutesOverview />
+          {/* Sidebar */}
+          {isAnalysisActive ? (
+            <Sidebar2 /> // Show Sidebar2 during analysis
+          ) : (
+            <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+          )}
 
-        <div className={styles.tableWrapper}>
-          <img
-            src="mybussvg.svg"
-            alt="Station Icon"
-            className={styles.iconLeft}
-          />
-          <StationsTable />
-    
-  
-          <div
-            ref={analysisRef}
-            className={`${styles.analysisSection} ${
-              isAnalysisActive ? styles.analysisBg : ""
-            }`}
+          {/* Main Content */}
+          <main
+            className={`${styles.mainContent} ${
+              !isSidebarOpen ? styles.shifted : ""
+            } ${isAnalysisActive ? styles.analysisActive : ""}`}
           >
-            <AnalysisMode />
-          </div>
-        </div>
-      </main>
+            <RoutesOverview />
+
+            <div className={styles.tableWrapper}>
+              <img
+                src="mybussvg.svg"
+                alt="Station Icon"
+                className={styles.iconLeft}
+              />
+              <StationsTable />
+
+              <div
+                ref={analysisRef}
+                className={`${styles.analysisSection} ${
+                  isAnalysisActive ? styles.analysisBg : ""
+                }`}
+              >
+                <AnalysisMode />
+              </div>
+            </div>
+          </main>
+        </>
+      )}
     </div>
   );
 }
