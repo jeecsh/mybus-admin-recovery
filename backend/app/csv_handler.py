@@ -14,50 +14,58 @@ class BusData(BaseModel):
     passengers: int
     estimated: str
     current_time:str
-  
+    
 
 # Directory to store CSV files
 DATA_DIRECTORY = "data"
 
 # Ensure the directory exists
 os.makedirs(DATA_DIRECTORY, exist_ok=True)
-
 def save_to_csv(bus_data: BusData, filename=None):
     try:
         if filename is None:
             filename = datetime.now().strftime("%Y-%m-%d") + ".csv"
         filepath = os.path.join(DATA_DIRECTORY, filename)
 
-        # Check if file exists to determine if we need to write headers
-        file_exists = os.path.exists(filepath)
-
         # Extract date and time from current_time string
-        current_time = bus_data.estimated_time  # Replace with actual 'current_time' if necessary
-        date_time_obj = datetime.strptime(current_time, "%Y-%m-%d %H:%M:%S")
+        date_time_obj = datetime.strptime(bus_data.current_time, "%Y-%m-%d %H:%M:%S")
         date = date_time_obj.strftime("%Y-%m-%d")
         time = date_time_obj.strftime("%H:%M:%S")
 
-        # Update the BusData with the extracted date and time
-        bus_data.date = date
-        bus_data.time = time
+        # Define correct headers
+        correct_headers = [
+            'Bus ID',
+            'Current Stop',
+            'Next Stop',
+            'Latitude',
+            'Longitude',
+            'Passengers',
+            'Estimated Time',
+            'Date',
+            'Time'
+        ]
+
+        file_exists = os.path.exists(filepath)
+
+        if file_exists:
+            # Check the existing headers
+            with open(filepath, mode="r", newline='') as file:
+                reader = csv.reader(file)
+                headers = next(reader, None)  # Read the first row (headers)
+
+                if headers != correct_headers:
+                    # If headers don't match, create a new file
+                    filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "_new.csv"
+                    filepath = os.path.join(DATA_DIRECTORY, filename)
+                    file_exists = False  # Treat as a new file
 
         with open(filepath, mode="a", newline='') as file:
             writer = csv.writer(file)
-            
-            # Write headers only if file is new
+
+            # Write headers only if the file is new
             if not file_exists:
-                writer.writerow([
-                    'Bus ID',
-                    'Current Stop',
-                    'Next Stop',
-                    'Latitude',
-                    'Longitude',
-                    'Passengers',
-                    'Estimated Time',
-                    'Date',
-                    'Time'
-                ])
-            
+                writer.writerow(correct_headers)
+
             # Write the data row
             writer.writerow([
                 bus_data.bus_id,
@@ -66,13 +74,12 @@ def save_to_csv(bus_data: BusData, filename=None):
                 bus_data.latitude,
                 bus_data.longitude,
                 bus_data.passengers,
-                bus_data.estimated_time,
-                bus_data.date,
-                bus_data.time
+                bus_data.estimated,
+                date,
+                time
             ])
 
-        return True
-
+        return {"status": "success", "filename": filename}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error saving data: {str(e)}")
 
