@@ -26,7 +26,7 @@ ChartJS.register(
 
 const MostCrowdedTimeChart = ({ charts }) => {
   if (!charts?.mostCrowdedTime?.data) {
-    return <p className={styles.noCharts}>No Most Crowded Time data available</p>;
+    return <p className={styles.noCharts}></p>;
   }
 
   // Function to format hour labels

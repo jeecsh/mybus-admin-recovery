@@ -16,7 +16,6 @@ export default function AddRoutePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Track sidebar state
   const [isPopupVisible, setPopupVisible] = useState(false); // Track popup visibility
   const [popupData, setPopupData] = useState(null); // Data to display in the popup
-
   const handleColorChange = (e) => {
     setRouteColor(e.target.value);
   };

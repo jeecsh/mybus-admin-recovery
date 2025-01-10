@@ -21,27 +21,11 @@ const Navbar = () => {
           ADMIN PANEL
         </div>
         <div className={styles.items}>
-          <Link href="/search" className={styles.item}>
-            <PublicOutlinedIcon className={styles.icon} />
-            English
-          </Link>
-          <Link href="/dark-mode" className={styles.item}>
-            <DarkModeOutlinedIcon className={styles.icon} />
-          </Link>
-          <Link href="/fullscreen" className={styles.item}>
-            <FullscreenExitOutlinedIcon className={styles.icon} />
-          </Link>
-          <Link href="/feedback " className={styles.item}>
-            <ChatBubbleOutlineOutlinedIcon className={styles.icon} />
-            <div className={styles.counter}>2</div>
-          </Link>
-          <Link href="/segment" className={styles.item}>
-            <SegmentOutlinedIcon className={styles.icon} />
-          </Link>
-          <Link href="/profile" className={styles.item}>
-            <img src="/BUSS3.png" alt="avatar" className={styles.avatar} />
-          </Link>
-        </div>
+         
+       <h2 className={styles.tittle}>
+        Track your Future
+        </h2>
+r        </div>
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ ChartJS.register(
 const PeoplePerTime = ({ charts }) => {
   // Check if the required data is available
   if (!charts?.passengerCountPerRouteByTime?.data) {
-    return <p className={styles.noCharts}>No Passenger Count per Route data available</p>;
+    return <p className={styles.noCharts}></p>;
   }
 
   const { stackedBar } = charts.passengerCountPerRouteByTime.data;

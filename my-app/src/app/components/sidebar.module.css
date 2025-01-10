@@ -3,7 +3,7 @@
 /* Default styles for the sidebar */
 .sidebar {
     width: 250px; /* Set initial sidebar width */
-    background-color: #032975; /* Dark blue background */
+    background-color: #003976; /* Dark blue background */
     position: fixed; /* Keeps the sidebar fixed on the left */
     top: 70px; /* Adjust to match the height of the Navbar */
     bottom: 0;

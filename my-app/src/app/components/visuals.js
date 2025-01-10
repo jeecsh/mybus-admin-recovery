@@ -28,7 +28,7 @@ ChartJS.register(
 
 const ChartViewer = ({ charts }) => {
   if (!charts?.routePopularity?.data) {
-    return <p className={styles.noCharts}>No route popularity data available</p>;
+    return <p className={styles.noCharts}></p>;
   }
 
   // Function to get chart data

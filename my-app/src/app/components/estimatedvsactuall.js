@@ -24,7 +24,7 @@ ChartJS.register(
 
 const AccuracyCharts = ({ charts }) => {
   if (!charts?.estimatedVsActual?.data) {
-    return <p className={styles.noCharts}>No Estimated vs Actual Time data available</p>;
+    return <p className={styles.noCharts}></p>;
   }
 
   const { scatter, line } = charts.estimatedVsActual.data;

@@ -16,6 +16,7 @@ export default function Home() {
   const [isAnalysisActive, setIsAnalysisActive] = useState(false); // Track if the AnalysisMode is active
   const [loading, setLoading] = useState(true); // New loading state
   const analysisRef = useRef(null); // Ref for the AnalysisMode section
+  const routesOverviewRef = useRef(null);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
@@ -28,40 +29,25 @@ export default function Home() {
     }, 2000);
   }, []);
 
+  const scrollToRoutesOverview = () => {
+    if (routesOverviewRef.current) {
+      routesOverviewRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (!analysisRef.current) return;
-  
+
       const analysisPosition = analysisRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-  
-      // Check if the top of the analysis section is in the middle of the viewport
-      if (analysisPosition.top < viewportHeight / 2 && analysisPosition.top > 0) {
-        setIsAnalysisActive(true);
-  
-        // Automatically scroll a bit further below the analysis section
-        window.scrollTo({
-          top: window.scrollY + analysisPosition.top + 100, // Scroll an additional 100px
-          behavior: "smooth",
-        });
+
+      // Check if the analysis section is mostly in the viewport
+      const threshold = viewportHeight * 0.2; // Adjust this value to control when the sidebar disappears
+      if (analysisPosition.top < threshold && analysisPosition.bottom > 0) {
+        setIsAnalysisActive(true); // Activate analysis mode when the section is mostly in view
       } else {
-        setIsAnalysisActive(false);
-      }
-    };
-  
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      const analysisPosition = analysisRef.current?.getBoundingClientRect();
-      if (analysisPosition) {
-        if (analysisPosition.top < window.innerHeight / 2) {
-          setIsAnalysisActive(true);
-        } else {
-          setIsAnalysisActive(false);
-        }
+        setIsAnalysisActive(false); // Deactivate analysis mode when the section is out of view
       }
     };
 
@@ -86,7 +72,7 @@ export default function Home() {
 
           {/* Sidebar */}
           {isAnalysisActive ? (
-            <Sidebar2 /> // Show Sidebar2 during analysis
+            <Sidebar2 scrollToRoutesOverview={scrollToRoutesOverview} /> // Show Sidebar2 during analysis
           ) : (
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
           )}
@@ -97,24 +83,21 @@ export default function Home() {
               !isSidebarOpen ? styles.shifted : ""
             } ${isAnalysisActive ? styles.analysisActive : ""}`}
           >
-            <RoutesOverview />
+            <div ref={routesOverviewRef}>
+              <RoutesOverview />
+            </div>
 
             <div className={styles.tableWrapper}>
-              <img
-                src="mybussvg.svg"
-                alt="Station Icon"
-                className={styles.iconLeft}
-              />
               <StationsTable />
+            </div>
 
-              <div
-                ref={analysisRef}
-                className={`${styles.analysisSection} ${
-                  isAnalysisActive ? styles.analysisBg : ""
-                }`}
-              >
-                <AnalysisMode />
-              </div>
+            <div
+              ref={analysisRef}
+              className={`${styles.analysisSection} ${
+                isAnalysisActive ? styles.analysisBg : ""
+              }`}
+            >
+              <AnalysisMode />
             </div>
           </main>
         </>
