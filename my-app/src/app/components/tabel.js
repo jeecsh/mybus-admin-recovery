@@ -145,10 +145,20 @@ const StationsTable = () => {
 
       showSnackbar('Station deleted successfully');
       fetchStations();
+      
     } catch (error) {
       console.error('Error deleting station:', error);
       showSnackbar(error.message || 'Error deleting station', 'error');
     }
+    await fetch('/api/logs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        info: `Route titled "${routeName}" with ID "${routeId}" has been added.`,
+        time: new Date().toISOString(),
+      }),});
   };
 
   const handleCloseDialog = () => {

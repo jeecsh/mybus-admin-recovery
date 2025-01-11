@@ -50,3 +50,33 @@ current_time: busLocationData.current_time,
     );
   }
 }
+
+
+export async function POST(req) {
+  try {
+    // Parse the incoming request body
+    const { field, value } = await req.json();
+
+    // Validate input
+    if (!['shutdown', 'reboot'].includes(field)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid field. Allowed fields are "shutdown" or "reboot".' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Update the corresponding field in the Realtime Database
+    await realtimeDb.ref('gps_locations').update({ [field]: value });
+
+    return new Response(
+      JSON.stringify({ message: `${field} updated successfully to ${value}.` }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    );
+  } catch (error) {
+    console.error('Error updating database field:', error);
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { DotLoader } from 'react-spinners';
+import { BounceLoader
+} from 'react-spinners';
 import Navbar from "./navbar";
 import Sidebar from "./sidebar";
 import styles from './loading.module.css'; // Custom CSS file for the loader
@@ -16,7 +17,8 @@ const Loading = () => {
 
         {/* Loader centered in the main content area */}
         <div className={styles.loaderContainer}>
-          <DotLoader color="#032975" size={100} />
+          <BounceLoader
+ color="#003976" size={100} />
         </div>
       </div>
     </div>

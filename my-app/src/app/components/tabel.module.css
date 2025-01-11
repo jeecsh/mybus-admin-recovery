@@ -3,7 +3,6 @@
   margin-bottom: 16px;
   background-color: white;
   border-radius: 20px; /* Rounded corners for a more modern look */
-  padding-left: 35px; /* Space for the icon */
   box-shadow: none; /* Remove shadow */
   transition: all 0.3s ease; /* Smooth transitions */
 }

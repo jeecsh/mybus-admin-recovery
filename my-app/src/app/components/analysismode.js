@@ -46,10 +46,10 @@ export default function AnalysisMode() {
     estimatedVsActual: false,
     passengerGrowth: false,
     passengerCountPerRouteByTime: false,
-    busDelaysPerRoute: false,
-    busFrequencyByTime: false,
-    routeStopsAnalysis: false,
-    passengerLoadAtStations: false,
+    // busDelaysPerRoute: false,
+    // busFrequencyByTime: false,
+    // routeStopsAnalysis: false,
+    // passengerLoadAtStations: false,
   });
   const containerRef = useRef(null);
 
@@ -128,10 +128,10 @@ export default function AnalysisMode() {
       estimatedVsActual: true,
       passengerGrowth: true,
       passengerCountPerRouteByTime: true,
-      busDelaysPerRoute: true,
-      busFrequencyByTime: true,
-      routeStopsAnalysis: true,
-      passengerLoadAtStations: true,
+      // busDelaysPerRoute: true,
+      // busFrequencyByTime: true,
+      // routeStopsAnalysis: true,
+      // passengerLoadAtStations: true,
     });
   };
 
@@ -143,10 +143,10 @@ export default function AnalysisMode() {
       estimatedVsActual: false,
       passengerGrowth: false,
       passengerCountPerRouteByTime: false,
-      busDelaysPerRoute: false,
-      busFrequencyByTime: false,
-      routeStopsAnalysis: false,
-      passengerLoadAtStations: false,
+      // busDelaysPerRoute: false,
+      // busFrequencyByTime: false,
+      // routeStopsAnalysis: false,
+      // passengerLoadAtStations: false,
     });
   };
 
@@ -388,7 +388,6 @@ export default function AnalysisMode() {
 
       {/* ChartViewer Component */}
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Generated Charts</h2>
         <ChartViewer charts={charts} />
         <MostCrowdedTimeChart charts={charts} />
         <HeatMapAndBarChart charts={charts} />

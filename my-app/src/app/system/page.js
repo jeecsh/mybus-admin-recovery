@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
 import styles from "./sys.module.css";
+import Popup from "../components/pop";
 import { 
   Thermostat, Memory, BatteryFull, CameraAlt, RestartAlt, Speed, Timer 
 } from "@mui/icons-material";
@@ -11,6 +12,9 @@ import Loading from "../components/loading"; // Import the Loading component
 
 export default function SystemHealth() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState(null);
+  const [actionType, setActionType] = useState(null); // "restart" or "shutdown"
   const [loading, setLoading] = useState(true); // Track loading state
   const [systemData, setSystemData] = useState({
     temperature: null,
@@ -46,6 +50,65 @@ export default function SystemHealth() {
     }));
   };
 
+  useEffect(() => {
+    if (confirmationMessage) {
+      const timer = setTimeout(() => {
+        setConfirmationMessage(null); // Clear the message after 3 seconds
+      }, 3000);
+  
+      return () => clearTimeout(timer); // Cleanup the timer
+    }
+  }, [confirmationMessage]);
+  const handleFirebaseUpdate = async () => {
+    if (!actionType) return;
+
+    try {
+      const response = await fetch(`/api/getlocations`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          field: actionType, // "reboot" or "shutdown"
+          value: true,
+        }),
+      });
+
+      if (response.ok) {
+        console.log(`${actionType} action triggered successfully`);
+        setConfirmationMessage(`${actionType.charAt(0).toUpperCase() + actionType.slice(1)} successfully `);
+
+        await fetch('/api/logs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            info: `user "${actionType}" the system`,
+            time: new Date().toISOString(),
+          }),
+        });
+      } else {
+        console.error("Failed to update Firebase:", response.statusText);
+
+      }
+
+    } catch (error) {
+      console.error("Error updating Firebase:", error);
+    } finally {
+      setPopupVisible(false); // Hide the popup after confirming the action
+    }
+  };
+
+  const openPopup = (type) => {
+    setActionType(type); // Set the action type ("reboot" or "shutdown")
+    setPopupVisible(true); // Show the popup
+  };
+
+  const closePopup = () => {
+    setPopupVisible(false);
+    setActionType(null);
+  };
   useEffect(() => {
     const setupEventSource = () => {
       if (!eventSourceRef.current) {
@@ -128,6 +191,7 @@ export default function SystemHealth() {
               !isSidebarOpen ? styles.shifted : ""
             }`}
           >
+          
             <div className={styles.statusHeader}>
               <h2
                 style={{
@@ -202,15 +266,42 @@ export default function SystemHealth() {
                 title="Actions"
                 icon={<RestartAlt style={{ color: "gray" }} />}
                 customContent={
-                  <button className={styles.button}>
+                  <>
+                  <button
+                    className={styles.button}
+                    onClick={() => openPopup("reboot")}
+                  >
                     Restart Raspberry Pi
                   </button>
+                  <button
+                    className={styles.button}
+                    onClick={() => openPopup("shutdown")}
+                  >
+                    Shutdown Raspberry Pi
+                  </button>
+                  {confirmationMessage && (
+          <div className={styles.toast}>
+            {confirmationMessage}
+          </div>
+        )}  
+                </>
                 }
               />
             </div>
           </main>
+          
         </>
+        
+      )} {popupVisible && (
+        <Popup
+          title={`Confirm ${actionType}`}
+          message={`Are you sure you want to ${actionType} the Raspberry Pi?`}
+          onClose={closePopup}
+          onConfirm={handleFirebaseUpdate}
+        />
+
       )}
+      
     </div>
   );
 }

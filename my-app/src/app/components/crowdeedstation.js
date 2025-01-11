@@ -96,7 +96,7 @@ const HeatMapAndBarChart = ({ charts = {} }) => {
   }, [charts]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return 
   }
 
   const heatmapData = charts?.mostCrowdedStation?.data || [];
