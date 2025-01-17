@@ -22,7 +22,7 @@
   .removeButton {
     margin-left: 10px;
     padding: 8px 12px;
-    background-color: #0070f3;
+    background-color: #fdb425;
     color: white;
     border: none;
     border-radius: 3px;
@@ -32,6 +32,6 @@
   
   .resetButton:hover,
   .removeButton:hover {
-    background-color: #005bb5;
+    background-color: #fdb425;
   }
   

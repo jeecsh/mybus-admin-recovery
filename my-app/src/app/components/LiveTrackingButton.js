@@ -17,7 +17,6 @@ export default function LiveTrackingButton({ routeId }) {
       {/* Live Tracking Button */}
       <Button 
         variant="contained" 
-        color="primary" 
         onClick={handleOpen}
         className={styles.liveTrackingBtn}
       >

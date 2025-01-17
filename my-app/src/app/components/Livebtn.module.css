@@ -3,7 +3,7 @@
 /* Style for the Live Tracking Button */
 .liveTrackingBtn {
     margin-top: 20px;
-    background-color: #032975;
+    background-color: #003976;
     color: white;
     padding: 10px 20px;
     font-size: 16px;
@@ -14,7 +14,6 @@
   }
   
   .liveTrackingBtn:hover {
-    background-color: #0056b3;
     transform: translateY(-2px);
   }
   

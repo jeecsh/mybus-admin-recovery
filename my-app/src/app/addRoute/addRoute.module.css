@@ -1,149 +1,165 @@
 .pageLayout {
   display: flex;
   flex-direction: column;
-  background-color: #ffffff; /* White background for the main layout */
+  height: 100vh;
+  background-color: #f5f5f5;
 }
 
-
-.mainContent {
-  display: flex;
-  flex-grow: 1;
-  margin-top: 57px; /* Height of the navbar */
-  transition: margin-left 0.3s ease; /* Smooth transition when sidebar toggles */
-  width: 90%;
-}
-
-
-.content {
-  flex: 1;
-  margin-left: 300px; /* Offset for the sidebar */
+.contentContainer {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Form on the left, Map on the right */
+  gap: 20px;
   padding: 20px;
-  transition: margin-left 0.3s ease; /* Smooth transition when sidebar toggles */
+  flex-grow: 1;
+  margin-top: 60px; /* Space for Navbar */
+  max-width: 1200px; /* Reduced width */
+  width: 100%;
+  margin: 60px auto 0; /* Center the container */
 }
 
-.content.shifted {
-  margin-left: 90px; /* Adjusted margin when sidebar is closed */
+.formContainer {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .title {
-  color: #032975; /* Main color for titles */
-  margin-bottom: 40px; /* Spacing below titles */
+  font-size: 24px;
+  font-weight: 600;
+  color: #003976;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .formGroup {
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.label {
-  display: block;
-  margin-bottom: 5px;
-  color: #032975; /* Main color for labels */
-  font-weight: bold; /* Bold labels for emphasis */
+.formGroup label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555555;
 }
 
-.inputField, .colorPicker, .textareaField {
-  width: 100%;
-  padding: 10px; /* More padding for a modern look */
+.formGroup input,
+.formGroup textarea {
+  padding: 10px;
+  border: 1px solid #cccccc;
   border-radius: 15px;
-  border: 1px solid lightgray;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  font-size: 14px;
+  color: #333333;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
 }
 
-.colorPicker {
-  height: 40px; /* Increased height for better visibility */
+.formGroup input:focus,
+.formGroup textarea:focus {
+  border-color: #003976;
+  outline: none;
 }
 
-.textareaField {
+.formGroup textarea {
   resize: vertical;
-  min-height: 100px; /* Minimum height for the text area */
 }
 
 .submitButton {
-  padding: 10px 20px;
-  background-color: transparent; /* Transparent background for outlined button */
-  color: #032975; /* Blue color for button text */
-  border: 2px solid #032975; /* Blue border for outlined button */
+  padding: 12px;
+  background-color: #003976;
+  color: #ffffff;
+  border: none;
   border-radius: 15px;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
-  margin-top: 20px;
-  width: 100px;
+  transition: background-color 0.3s ease;
 }
 
 .submitButton:hover {
-  background-color: #032975; /* Blue background on hover */
-  color: white; /* White text on hover */
+  background-color: #2b7ace;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.card {
+.mapContainer {
   background-color: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  transition: transform 0.2s ease-in-out;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.cardHeader {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.icon {
-  font-size: 2rem;
-  margin-right: 10px;
-}
-
-.value {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.normal {
-  color: #4caf50;
-}
-
-.warning {
-  color: #ff5722;
-}
-
-.smallText {
-  font-size: 0.8rem;
-  color: #777;
-}
-
-.progressBar {
-  background: #e0e0e0;
   border-radius: 8px;
-  height: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
-.progressFill {
-  background: #3b82f6;
+/* Popup Styling */
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.button {
-  background: #3b82f6;
-  color: #ffffff;
-  border: none;
+.popupContent {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.popupContent h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 16px;
+}
+
+.popupContent p {
+  font-size: 16px;
+  color: #555555;
+  margin-bottom: 20px;
+}
+
+.popupButtons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.popupButtons button {
   padding: 10px 20px;
+  border: none;
   border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
-.button:hover {
-  background: #2563eb;
+.popupButtons button:first-child {
+  background-color: #003976;
+  color: #ffffff;
+}
+
+.popupButtons button:first-child:hover {
+  background-color: #0056b3;
+}
+
+.popupButtons button:last-child {
+  background-color: #cccccc;
+  color: #333333;
+}
+
+.popupButtons button:last-child:hover {
+  background-color: #999999;
 }

@@ -163,8 +163,7 @@ export default function AnalysisMode() {
     }, []);
 
     return [...new Set(availableCharts)];
-  };
-  const handleGenerateData = async () => {
+  };const handleGenerateData = async () => {
     const payload = {
       file: csvData ? csvData.map((row) => row.join(",")).join("\n") : null,
       dateFilter,
@@ -172,10 +171,10 @@ export default function AnalysisMode() {
       selectedDataToVisualize,
       selectedChartTypes,
     };
-
+  
     setIsLoading(true);
     setError(null);
-
+  
     try {
       const response = await fetch("http://localhost:8000/generate-data", {
         method: "POST",
@@ -184,11 +183,11 @@ export default function AnalysisMode() {
         },
         body: JSON.stringify(payload),
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to generate charts.");
       }
-
+  
       const data = await response.json();
       setCharts(data.charts || {});
     } catch (err) {
@@ -198,6 +197,8 @@ export default function AnalysisMode() {
       setIsLoading(false);
     }
   };
+
+     
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -381,11 +382,21 @@ export default function AnalysisMode() {
         </section>
 
         <section className={styles.section}>
-          <button onClick={handleGenerateData} className={styles.generateBtn}>
-            Generate Data
-          </button>
-        </section>
-
+  <button
+    onClick={handleGenerateData}
+    className={styles.generateBtn}
+    disabled={isLoading}
+  >
+    {isLoading ? (
+      <div className={styles.buttonContent}>
+        <div className={styles.spinner}></div>
+        <span>Generating...</span>
+      </div>
+    ) : (
+      "Generate Data"
+    )}
+  </button>
+</section>
       {/* ChartViewer Component */}
       <section className={styles.section}>
         <ChartViewer charts={charts} />

@@ -3,6 +3,7 @@
     background: #ffffff;
     width: 100%;
     margin-top: 60px;
+    font-family: Manrope;
   }
   
   .navbar {
@@ -107,6 +108,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     animation: fadeInOut 5s;
+    font-family: Manrope;
   }
   
   @keyframes fadeInOut {

@@ -1,82 +1,216 @@
-.container {
-    display: flex; /* Enable flexbox for the main container */
-    height: auto; /* Full height to accommodate the navbar */
-    margin-top: 57px; /* Adjusted for the navbar height */
-    width: 100%;
-}
+/* NotificationsPage.module.css */
 
-.mainContent {
-    display: flex; /* Flexbox for the main content area */
-    flex: 1; /* Take up remaining space */
-    overflow: hidden; /* Prevent overflow */
-}
 
-.formContainer {
-    flex: 1; /* This will take the available width left by the sidebar */
-    padding: 2em; /* Add some padding */
-    background-color: #ffffff; /* Light background for the form area */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border-radius: 8px; /* Rounded corners for the form area */
-}
 
-.content {
-    flex: 1;
-    margin-left: 300px; /* Offset for the sidebar */
-    padding: 20px;
-    transition: margin-left 0.3s ease; /* Smooth transition when sidebar toggles */
+.pageWrapper {
+    height: 600px;
+    background-color: #ffffff;
+    padding: 2rem 0;
+    margin-top: 120px;
+    margin-left: 60px;
+    overflow: hidden; /* Prevent content overflow */
   }
   
-  .content.shifted {
-    margin-left: 90px; /* Adjusted margin when sidebar is closed */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
   }
-.pageTitle {
-    margin-bottom: 1.5em; /* Space below title */
-    color: #032975; /* Main blue color for title */
-    font-size: 40px; /* Larger font size for the title */
-    font-weight: bold; /* Bold title */
-}
-
-.formGroup {
-    margin-bottom: 1.5em; /* Space between input fields */
-}
-
-.label {
-    display: block; /* Ensure labels are on their own line */
-    margin-bottom: 0.5em; /* Space between label and input */
-    font-weight: bold; /* Bold labels for emphasis */
-    color: #032975; /* Main color for labels */
-}
-
-.input, .textarea {
-    width: 100%; /* Full width for inputs */
-    padding: 0.75em; /* Padding for inputs */
-    border: 1px solid #ccc; /* Basic border */
+  
+  .headerTitle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #032975;
+    font-size: bold;
+  }
+  
+  .headerIcon {
+    font-size: 2.5rem !important;
+    color: #2563eb;
+  }
+  
+  .clearAllButton {
+    color: #dc2626 !important;
+    border-color: #dc2626 !important;
+    border-radius: 8px !important;
+    text-transform: none !important;
+    padding: 0.5rem 1.25rem !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .clearAllButton:hover {
+    background-color: #fee2e2 !important;
+  }
+  
+  .formCard,
+  .notificationsCard {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 2rem;
+    height: 100%;
+  }
+  
+  .cardTitle {
+    font-size: 1.5rem;
+    color: #032975;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .inputGroup {
+    width: 100%;
+  }
+  
+  .textField {
+    background-color: #f8fafc;
+    border-radius: 8px;
+  }
+  
+  .textField input,
+  .textField textarea {
+    padding: 1rem;
     border-radius: 15px;
-    font-size: 16px; /* Font size for readability */
-    transition: border-color 0.3s; /* Smooth transition on focus */
-}
 
-.input:focus, .textarea:focus {
-    border-color: #032975; /* Blue border on focus */
-    outline: none; /* Remove default outline */
-}
-
-.textarea {
-    min-height: 100px; /* Minimum height for the textarea */
-}
-
-.submitButton {
-    background-color: transparent; /* Transparent background for outlined button */
-    color: #012e61; /* Button text color */
-    border: 2px solid #02254d; /* Blue border for outlined button */
-    padding: 0.5em 1em;
+  }
+  
+  .calendarIcon {
+    color: #6b7280;
+    margin-right: 0.5rem;
+  }
+  
+  .submitButton {
+    background-color: #032975 !important;
+    padding: 1rem !important;
+    border-radius: 8px !important;
+    text-transform: none !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .submitButton:hover {
+    background-color: #1d4ed8 !important;
+    transform: translateY(-1px);
+  }
+  
+  .notificationsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 300px;  /* Set a max-height for the list */
+    overflow-y: auto;  /* Enable scrolling for the notification list */
+  }
+  
+  .notificationItem {
+    background-color: #f8fafc;
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .notificationItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .deleteButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #ef4444;
     cursor: pointer;
-    margin-top: 1em;
-    border-radius: 15px;
-    transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
-}
-.submitButton:hover {
-    background-color: #032975; /* Blue background on hover */
-    color: white; /* White text on hover */
-}
-
+    opacity: 0;
+    transition: all 0.3s ease;
+    padding: 0.25rem;
+    border-radius: 50%;
+  }
+  
+  .notificationItem:hover .deleteButton {
+    opacity: 1;
+  }
+  
+  .deleteButton:hover {
+    background-color: #fee2e2;
+  }
+  
+  .notificationTitle {
+    font-size: 1.125rem;
+    color: #032975;
+    margin-bottom: 0.5rem;
+    padding-right: 2rem;
+    font-weight: 600;
+  }
+  
+  .notificationMessage {
+    color: #4b5563;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+  
+  .notificationTime {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+  
+  .emptyState {
+    text-align: center;
+    color: #6b7280;
+    padding: 3rem 0;
+    font-size: 1.125rem;
+  }
+  
+  .dialog {
+    border-radius: 16px;
+  }
+  
+  .dialogTitle {
+    color: #032975;
+  }
+  
+  .dialogActions {
+    padding: 1rem 1.5rem;
+  }
+  
+  .cancelButton {
+    color: #6b7280 !important;
+    text-transform: none !important;
+  }
+  
+  .confirmButton {
+    background-color: #2563eb !important;
+    text-transform: none !important;
+  }
+  
+  .confirmButton:hover {
+    background-color: #1d4ed8 !important;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 960px) {
+    .pageWrapper {
+      padding: 1rem 0;
+    }
+  
+    .header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+  
+    .formCard,
+    .notificationsCard {
+      padding: 1.5rem;
+    }
+  }

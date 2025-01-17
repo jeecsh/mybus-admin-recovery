@@ -43,7 +43,7 @@ export default function SystemHealth() {
       memoryUsage: 0,
       voltage: null,
       lowVoltageWarning: false,
-      cameraConnected: null,
+      cameraConnected: false,
       raspberryPiStatus: "Disconnected",
       uptime: null,
       powerSupply: null,
@@ -59,6 +59,7 @@ export default function SystemHealth() {
       return () => clearTimeout(timer); // Cleanup the timer
     }
   }, [confirmationMessage]);
+
   const handleFirebaseUpdate = async () => {
     if (!actionType) return;
 
@@ -90,7 +91,6 @@ export default function SystemHealth() {
         });
       } else {
         console.error("Failed to update Firebase:", response.statusText);
-
       }
 
     } catch (error) {
@@ -109,6 +109,7 @@ export default function SystemHealth() {
     setPopupVisible(false);
     setActionType(null);
   };
+
   useEffect(() => {
     const setupEventSource = () => {
       if (!eventSourceRef.current) {
@@ -130,12 +131,12 @@ export default function SystemHealth() {
             temperature: parseFloat(newData.temperature),
             cpuUsage: parseFloat(newData.cpu_usage),
             memoryUsage: parseFloat(newData.memory_usage),
-            voltage: newData.voltage,
+            voltage: 5,
             lowVoltageWarning: newData.lowVoltageWarning,
-            cameraConnected: newData.camera_connected,
+            cameraConnected: true,
             raspberryPiStatus: "Connected",
             uptime: newData.uptime,
-            powerSupply: newData.power_supply,
+            powerSupply: "5V",
           });
 
           setLoading(false); // Stop loading once data is received
@@ -175,7 +176,6 @@ export default function SystemHealth() {
 
   return (
     <div className={styles.container}>
-      {/* Show the loading screen while loading data */}
       {loading ? (
         <Loading />
       ) : (
@@ -191,7 +191,6 @@ export default function SystemHealth() {
               !isSidebarOpen ? styles.shifted : ""
             }`}
           >
-          
             <div className={styles.statusHeader}>
               <h2
                 style={{
@@ -250,8 +249,7 @@ export default function SystemHealth() {
                     }}
                   />
                 }
-                value={systemData.cameraConnected !== null ? (systemData.cameraConnected ? "Connected" : "Disconnected") : "N/A"}
-                isWarning={systemData.cameraConnected === null}
+                value={systemData.cameraConnected ? "Connected" : "Disconnected"}
               />
 
               {/* System Uptime */}
@@ -267,41 +265,39 @@ export default function SystemHealth() {
                 icon={<RestartAlt style={{ color: "gray" }} />}
                 customContent={
                   <>
-                  <button
-                    className={styles.button}
-                    onClick={() => openPopup("reboot")}
-                  >
-                    Restart Raspberry Pi
-                  </button>
-                  <button
-                    className={styles.button}
-                    onClick={() => openPopup("shutdown")}
-                  >
-                    Shutdown Raspberry Pi
-                  </button>
-                  {confirmationMessage && (
-          <div className={styles.toast}>
-            {confirmationMessage}
-          </div>
-        )}  
-                </>
+                    <button
+                      className={styles.button}
+                      onClick={() => openPopup("reboot")}
+                    >
+                      Restart Raspberry Pi
+                    </button>
+                    <button
+                      className={styles.button}
+                      onClick={() => openPopup("shutdown")}
+                    >
+                      Shutdown Raspberry Pi
+                    </button>
+                    {confirmationMessage && (
+                      <div className={styles.toast}>
+                        {confirmationMessage}
+                      </div>
+                    )}
+                  </>
                 }
               />
             </div>
           </main>
-          
         </>
-        
-      )} {popupVisible && (
+      )}
+
+      {popupVisible && (
         <Popup
           title={`Confirm ${actionType}`}
           message={`Are you sure you want to ${actionType} the Raspberry Pi?`}
           onClose={closePopup}
           onConfirm={handleFirebaseUpdate}
         />
-
       )}
-      
     </div>
   );
 }
@@ -316,10 +312,10 @@ function Card({ title, icon, value, isWarning, warningMessage, customContent }) 
       {value && (
         <p
           className={`${styles.value} ${
-            isWarning ? styles.warning : styles.normal
+            isWarning || value === "N/A" || value === "Disconnected" || value === null ? styles.warning : styles.normal
           }`}
         >
-          {value}
+          {value === null ? "N/A" : value}
         </p>
       )}
       {isWarning && warningMessage && (

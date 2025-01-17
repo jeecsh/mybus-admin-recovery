@@ -100,3 +100,31 @@ left: 70px;
     font-weight: 100;
     color: gray;
 }
+
+.errorIcon {
+    font-size: 30px;
+    color: red;
+    cursor: pointer;
+    margin-left: 15px;
+    position: relative;
+}
+
+.errorDropdown {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 10;
+    width: 300px;
+    margin-top: 8px;
+}
+
+.errorItem {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+    cursor: default;
+}

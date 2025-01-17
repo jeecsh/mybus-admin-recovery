@@ -23,8 +23,9 @@ DATA_DIRECTORY = "data"
 os.makedirs(DATA_DIRECTORY, exist_ok=True)
 def save_to_csv(bus_data: BusData, filename=None):
     try:
+        # Generate the filename for the current month if not provided
         if filename is None:
-            filename = datetime.now().strftime("%Y-%m-%d") + ".csv"
+            filename = datetime.now().strftime("%Y-%m") + ".csv"
         filepath = os.path.join(DATA_DIRECTORY, filename)
 
         # Extract date and time from current_time string
@@ -45,19 +46,8 @@ def save_to_csv(bus_data: BusData, filename=None):
             'Time'
         ]
 
+        # Check if the file already exists
         file_exists = os.path.exists(filepath)
-
-        if file_exists:
-            # Check the existing headers
-            with open(filepath, mode="r", newline='') as file:
-                reader = csv.reader(file)
-                headers = next(reader, None)  # Read the first row (headers)
-
-                if headers != correct_headers:
-                    # If headers don't match, create a new file
-                    filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "_new.csv"
-                    filepath = os.path.join(DATA_DIRECTORY, filename)
-                    file_exists = False  # Treat as a new file
 
         with open(filepath, mode="a", newline='') as file:
             writer = csv.writer(file)

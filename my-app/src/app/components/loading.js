@@ -17,8 +17,7 @@ const Loading = () => {
 
         {/* Loader centered in the main content area */}
         <div className={styles.loaderContainer}>
-          <BounceLoader
- color="#003976" size={100} />
+          <BounceLoader color="#003976" size={100} />
         </div>
       </div>
     </div>

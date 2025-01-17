@@ -24,7 +24,7 @@
   
   /* Info item styling */
   .infoItem {
-    color: #0056b3;
+    color: #003976;
     font-weight: 500;
     margin-bottom: 10px;
     display: flex;
@@ -38,4 +38,3 @@
     margin-right: 5px;
     vertical-align: middle;
   }
-  
