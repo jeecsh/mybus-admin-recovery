@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -47,14 +47,17 @@ const BusMarker = ({ position, icon, bus_id, setCurrentBusDetails }) => {
   const map = useMap();
 
   useEffect(() => {
+    let marker;
     if (position) {
-      const marker = L.marker(position, { icon }).addTo(map);
+      marker = L.marker(position, { icon }).addTo(map);
       marker.on("click", () => setCurrentBusDetails({ bus_id }));
-
-      return () => {
-        map.removeLayer(marker);
-      };
     }
+
+    return () => {
+      if (marker) {
+        map.removeLayer(marker);
+      }
+    };
   }, [position, icon, map, bus_id, setCurrentBusDetails]);
 
   return null;
@@ -67,6 +70,7 @@ const LiveTrackingMap = ({ routeId }) => {
   const [routeActive, setRouteActive] = useState(true);
   const [lastUpdate, setLastUpdate] = useState(null);
   const [error, setError] = useState(null);
+  const [isComponentMounted, setIsComponentMounted] = useState(true);
 
   // Initialize Leaflet default icons
   useEffect(() => {
@@ -78,55 +82,72 @@ const LiveTrackingMap = ({ routeId }) => {
     });
   }, []);
 
-  // Fetch bus locations every second
-  useEffect(() => {
-    const fetchBusLocations = async () => {
-      try {
-        const response = await fetch("/api/getlocations");
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
-        const validLocations = data.filter(
-          (bus) =>
-            bus &&
-            bus.latitude &&
-            bus.longitude &&
-            bus.bus_id === routeId &&
-            !isNaN(parseFloat(bus.latitude)) &&
-            !isNaN(parseFloat(bus.longitude))
-        );
+  // Fetch bus locations
+  const fetchBusLocations = useCallback(async () => {
+    if (!isComponentMounted) return;
+    
+    try {
+      const response = await fetch("/api/getlocations");
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      
+      if (!isComponentMounted) return;
 
-        if (validLocations.length > 0) {
-          const bus = validLocations[0];
-          setBusLocation({
-            latitude: parseFloat(bus.latitude),
-            longitude: parseFloat(bus.longitude),
-            bus_id: bus.bus_id,
-          });
-          setCurrentBusDetails(bus);
-          setRouteActive(true);
-        } else {
-          setRouteActive(false);
-        }
+      const validLocations = data.filter(
+        (bus) =>
+          bus &&
+          bus.latitude &&
+          bus.longitude &&
+          bus.bus_id === routeId &&
+          !isNaN(parseFloat(bus.latitude)) &&
+          !isNaN(parseFloat(bus.longitude))
+      );
 
-        setLastUpdate(new Date().toISOString());
-      } catch (error) {
+      if (validLocations.length > 0) {
+        const bus = validLocations[0];
+        setBusLocation({
+          latitude: parseFloat(bus.latitude),
+          longitude: parseFloat(bus.longitude),
+          bus_id: bus.bus_id,
+        });
+        setCurrentBusDetails(bus);
+        setRouteActive(true);
+      } else {
+        setRouteActive(false);
+      }
+
+      setLastUpdate(new Date().toISOString());
+    } catch (error) {
+      if (isComponentMounted) {
         console.error("Error fetching bus locations:", error);
         setError("Failed to load bus locations");
       }
-    };
+    }
+  }, [routeId, isComponentMounted]);
 
+  // Setup polling interval
+  useEffect(() => {
+    setIsComponentMounted(true);
+    
     fetchBusLocations();
-    const intervalId = setInterval(fetchBusLocations, 2000); // Poll every 1 second
+    const intervalId = setInterval(fetchBusLocations, 2000);
 
-    return () => clearInterval(intervalId);
-  }, [routeId]);
+    return () => {
+      setIsComponentMounted(false);
+      clearInterval(intervalId);
+    };
+  }, [fetchBusLocations]);
 
   // Fetch stations data
-  const fetchStations = async () => {
+  const fetchStations = useCallback(async () => {
+    if (!isComponentMounted) return;
+
     try {
       const response = await fetch("/api/getStation");
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
+
+      if (!isComponentMounted) return;
 
       const formattedStations = data
         .filter((station) => {
@@ -143,14 +164,17 @@ const LiveTrackingMap = ({ routeId }) => {
 
       setStations(formattedStations);
     } catch (error) {
-      console.error("Error fetching stations:", error);
-      setError("Failed to load station data");
+      if (isComponentMounted) {
+        console.error("Error fetching stations:", error);
+        setError("Failed to load station data");
+      }
     }
-  };
+  }, [routeId, isComponentMounted]);
 
+  // Fetch stations on component mount
   useEffect(() => {
     fetchStations();
-  }, [routeId]);
+  }, [fetchStations]);
 
   // Render station markers
   const renderStations = () => {

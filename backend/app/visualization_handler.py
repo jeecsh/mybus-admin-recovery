@@ -98,29 +98,35 @@ async def generate_data(data: DataRequest):
     charts = {}
     if data.selectedDataToVisualize.get("estimatedVsActual"):
         try:
-            df = df.sort_values(by=['bus ID', 'DateTime'])  # Sort data by bus ID and DateTime
+            # Sort the DataFrame by bus ID and DateTime
+            df = df.sort_values(by=['bus ID', 'DateTime'])
+
+            # Initialize data structures for visualization
             time_comparison_data = {
                 "scatter": [],
                 "line": []
             }
 
-            # Temporary list to store data for averaging
+            # Temporary dictionary to store data for averaging
             aggregated_data = {}
 
+            # Iterate through the DataFrame to calculate actual travel times
             for i in range(1, len(df)):
                 current_row = df.iloc[i - 1]
                 next_row = df.iloc[i]
 
                 # Ensure the rows are part of the same route and correctly ordered
                 if current_row['bus ID'] == next_row['bus ID'] and current_row['Next Stop'] == next_row['Current Stop']:
-                    # Calculate actual travel time
-                    actual_time = (next_row['DateTime'] - current_row['DateTime']).total_seconds() / 60  # Convert to minutes
-                    estimated_time = pd.to_timedelta(current_row['Estimated Time']).total_seconds() / 60  # Convert to minutes
+                    # Calculate actual travel time in minutes
+                    actual_time = (next_row['DateTime'] - current_row['DateTime']).total_seconds() / 60
 
-                    # Define the stop name
+                    # Convert estimated time to minutes
+                    estimated_time = pd.to_timedelta(current_row['Estimated Time']).total_seconds() / 60
+
+                    # Define the stop pair name
                     stop_name = f"{current_row['Current Stop']} to {current_row['Next Stop']}"
 
-                    # Aggregate data for same stop
+                    # Aggregate data for the same stop pair
                     if stop_name not in aggregated_data:
                         aggregated_data[stop_name] = {
                             "estimated_times": [],
@@ -131,22 +137,21 @@ async def generate_data(data: DataRequest):
                     aggregated_data[stop_name]["estimated_times"].append(estimated_time)
                     aggregated_data[stop_name]["actual_times"].append(actual_time)
 
-            # After collecting all data, calculate the averages
+            # After collecting all data, calculate the averages for each stop pair
             for stop_name, times in aggregated_data.items():
                 average_estimated_time = round(sum(times["estimated_times"]) / len(times["estimated_times"]), 2)
                 average_actual_time = round(sum(times["actual_times"]) / len(times["actual_times"]), 2)
 
-                # Prepare aggregated data for scatter plot and line graph
+                # Prepare aggregated data for scatter plot
                 time_comparison_data["scatter"].append({
                     "stop": stop_name,
                     "estimated_time": average_estimated_time,
                     "actual_time": average_actual_time
                 })
 
-                # Use a representative date (e.g., the first date) for line graph x-axis
-                representative_date = df[df['Current Stop'] == stop_name.split(' to ')[0]]['DateTime'].iloc[0].strftime("%Y-%m-%d %H:%M:%S")
+                # Use the stop pair name as the x-axis label for the line graph
                 time_comparison_data["line"].append({
-                    "x": representative_date,  # Use the first date as x-axis
+                    "x": stop_name,  # Use the stop pair name as x-axis
                     "estimated_time": average_estimated_time,
                     "actual_time": average_actual_time
                 })
@@ -157,12 +162,12 @@ async def generate_data(data: DataRequest):
                 "data": time_comparison_data
             }
 
-            # Print aggregated data for debugging
-        
+            # Debugging: Print aggregated data
+            print("Aggregated Data:")
+            print(aggregated_data)
 
         except Exception as e:
             print(f"Error processing estimated vs. actual time: {str(e)}")
-
     # Processing for most crowded station
     if data.selectedDataToVisualize.get("mostCrowdedStation"):
         try:
@@ -210,32 +215,32 @@ async def generate_data(data: DataRequest):
         except Exception as e:
             print(f"Error processing most crowded station: {str(e)}")
 
-
-    if data.selectedDataToVisualize.get("passengerCountPerRouteByTime"):
-        try:
-            # Ensure DateTime and Route are defined
-            df['Hour'] = df['DateTime'].dt.hour
-            df['Route'] = df['bus ID']  # Assuming 'bus ID' is the route, adjust if needed
             
-            # Group by Route and Hour, calculating the average passengers
-            route_time_df = df.groupby(['Route', 'Hour'])['Passengers'].mean().unstack(fill_value=0)
+        if data.selectedDataToVisualize.get("passengerCountPerRouteByDay"):
+            try:
+                # Ensure Date and bus ID are defined
+                df['Date'] = pd.to_datetime(df['Date'])  # Convert 'Date' to datetime if not already
+                df['DayOfWeek'] = df['Date'].dt.day_name()  # Extract day of the week (e.g., Monday, Tuesday)
 
-            # Prepare data for stacked bar chart
-            charts["passengerCountPerRouteByTime"] = {
-                "processName": "Passenger Count per Route by Hour",
-                "data": {
-                    'stackedBar': route_time_df.astype(int).to_dict(),
+                # Group by bus ID and DayOfWeek, calculating the average passengers
+                route_day_df = df.groupby(['bus ID', 'DayOfWeek'])['Passengers'].mean().unstack(fill_value=0)
+
+                # Prepare data for stacked bar chart
+                charts["passengerCountPerRouteByDay"] = {
+                    "processName": "Passenger Count per Route by Day of Week",
+                    "data": {
+                        'stackedBar': route_day_df.astype(int).to_dict(),
+                    }
                 }
-            }
-            print(charts)
-            # Prepare data for heatmap
-            heatmap_data = route_time_df.astype(int).reset_index().melt(id_vars='Route', var_name='Hour', value_name='Passengers')
-            charts["passengerCountPerRouteByTime"]["heatmap"] = heatmap_data.to_dict(orient='records')
 
-        except Exception as e:
-            print(f"Error processing passenger count per route by time: {str(e)}")
+                # Prepare data for heatmap
+                heatmap_data = route_day_df.astype(int).reset_index().melt(id_vars='bus ID', var_name='DayOfWeek', value_name='Passengers')
+                charts["passengerCountPerRouteByDay"]["heatmap"] = heatmap_data.to_dict(orient='records')
 
+                print(charts)  # Debugging: Print the charts data
 
+            except Exception as e:
+                print(f"Error processing passenger count per route by day of week: {str(e)}")
     # Processing route popularity
     if data.selectedDataToVisualize.get("routePopularity"):
         try:

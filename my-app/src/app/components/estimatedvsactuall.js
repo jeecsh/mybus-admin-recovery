@@ -48,9 +48,7 @@ const AccuracyCharts = ({ charts }) => {
   
   // Line Data
   const lineData = {
-    labels: line.map((point) =>
-      new Date(point.x).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    ),
+    labels: line.map((point) => point.x), // Use stop pair names as x-axis labels
     datasets: [
       {
         label: "Estimated Time",
@@ -105,7 +103,7 @@ const AccuracyCharts = ({ charts }) => {
     plugins: {
       title: {
         display: true,
-        text: charts.estimatedVsActual.processName || "Estimated vs Actual Times(AVARAGE)",
+        text: charts.estimatedVsActual.processName || "Estimated vs Actual Times (AVERAGE)",
         color: "white",
         font: { size: 19, weight: "bold" },
       },
@@ -123,7 +121,7 @@ const AccuracyCharts = ({ charts }) => {
     },
     scales: {
       x: {
-        title: { display: true, text: "Timestamp", color: "#FFFFFF" },
+        title: { display: true, text: "Stop Pair", color: "#FFFFFF" },
         ticks: { color: "#FFFFFF", maxRotation: 45, minRotation: 45 },
         grid: { color: "rgba(255, 255, 255, 0.1)" },
       },

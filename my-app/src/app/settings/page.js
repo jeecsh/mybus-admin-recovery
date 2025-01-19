@@ -1,11 +1,11 @@
-// Settings.jsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './settings.module.css';
 import { NotificationsActive, Warning, History } from '@mui/icons-material';
 import Sidebar from '../components/sidebar';
 import Navbar from '../components/navbar';
+import Popup from '../components/pop'; // Import the Popup component
 
 function Settings() {
   const [settings, setSettings] = useState({
@@ -15,18 +15,76 @@ function Settings() {
     emergencyAlertsEnabled: false,
     action: 'notify',
     logRetention: '30',
+    tempMax: 85,
+    voltageMax: 5
   });
 
+  const [tempSettings, setTempSettings] = useState({ ...settings });
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  const fetchSettings = async () => {
+    try {
+      const response = await fetch('/api/settings');
+      if (response.ok) {
+        const data = await response.json();
+        setSettings(data);
+        setTempSettings(data);
+      }
+    } catch (error) {
+      console.error('Error fetching settings:', error);
+    }
+  };
+
   const handleToggle = (key) => {
-    setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
+    setTempSettings(prevSettings => ({
+      ...prevSettings,
+      [key]: !prevSettings[key]
+    }));
   };
 
   const handleActionChange = (event) => {
-    setSettings((prev) => ({ ...prev, action: event.target.value }));
+    setTempSettings(prevSettings => ({
+      ...prevSettings,
+      action: event.target.value
+    }));
   };
 
   const handleLogRetentionChange = (event) => {
-    setSettings((prev) => ({ ...prev, logRetention: event.target.value }));
+    setTempSettings(prevSettings => ({
+      ...prevSettings,
+      logRetention: event.target.value
+    }));
+  };
+
+  const handleMaxValueChange = (key, value) => {
+    setTempSettings(prevSettings => ({
+      ...prevSettings,
+      [key]: Number(value)
+    }));
+  };
+
+  const saveSettings = async () => {
+    try {
+      const response = await fetch('/api/settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(tempSettings),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save settings');
+      }
+
+      setSettings(tempSettings);
+    } catch (error) {
+      console.error('Error saving settings:', error);
+    }
   };
 
   return (
@@ -48,28 +106,49 @@ function Settings() {
               </div>
               <div className={styles.cardBody}>
                 <div className={styles.settingRow}>
-                  <label htmlFor="tempLimit">Temperature Limit exceding</label>
+                  <label htmlFor="tempLimit">Temperature Limit exceeding</label>
                   <label className={styles.switch}>
                     <input
                       id="tempLimit"
                       type="checkbox"
-                      checked={settings.tempLimitReboot}
+                      checked={tempSettings.tempLimitReboot}
                       onChange={() => handleToggle('tempLimitReboot')}
                     />
                     <span className={styles.slider}></span>
                   </label>
                 </div>
                 <div className={styles.settingRow}>
-                  <label htmlFor="voltageLimit">Voltage Limit exceding</label>
+                  <label htmlFor="tempMax">Max Temperature (°C)</label>
+                  <input
+                    id="tempMax"
+                    type="number"
+                    className={styles.numberInput}
+                    value={tempSettings.tempMax}
+                    onChange={(e) => handleMaxValueChange('tempMax', e.target.value)}
+                  />
+                </div>
+
+                <div className={styles.settingRow}>
+                  <label htmlFor="voltageLimit">Voltage Limit exceeding</label>
                   <label className={styles.switch}>
                     <input
                       id="voltageLimit"
                       type="checkbox"
-                      checked={settings.voltageLimitReboot}
+                      checked={tempSettings.voltageLimitReboot}
                       onChange={() => handleToggle('voltageLimitReboot')}
                     />
                     <span className={styles.slider}></span>
                   </label>
+                </div>
+                <div className={styles.settingRow}>
+                  <label htmlFor="voltageMax">Max Voltage (V)</label>
+                  <input
+                    id="voltageMax"
+                    type="number"
+                    className={styles.numberInput}
+                    value={tempSettings.voltageMax}
+                    onChange={(e) => handleMaxValueChange('voltageMax', e.target.value)}
+                  />
                 </div>
               </div>
             </section>
@@ -92,7 +171,7 @@ function Settings() {
                         type="radio"
                         name="action"
                         value={option.value}
-                        checked={settings.action === option.value}
+                        checked={tempSettings.action === option.value}
                         onChange={handleActionChange}
                       />
                       <span className={styles.radioLabel}>{option.label}</span>
@@ -115,7 +194,7 @@ function Settings() {
                   <input
                     id="notifications"
                     type="checkbox"
-                    checked={settings.notificationsEnabled}
+                    checked={tempSettings.notificationsEnabled}
                     onChange={() => handleToggle('notificationsEnabled')}
                   />
                   <span className={styles.slider}></span>
@@ -127,7 +206,7 @@ function Settings() {
                   <input
                     id="emergency"
                     type="checkbox"
-                    checked={settings.emergencyAlertsEnabled}
+                    checked={tempSettings.emergencyAlertsEnabled}
                     onChange={() => handleToggle('emergencyAlertsEnabled')}
                   />
                   <span className={styles.slider}></span>
@@ -144,7 +223,7 @@ function Settings() {
             <div className={styles.cardBody}>
               <select
                 className={styles.select}
-                value={settings.logRetention}
+                value={tempSettings.logRetention}
                 onChange={handleLogRetentionChange}
               >
                 <option value="7">7 Days</option>
@@ -154,7 +233,27 @@ function Settings() {
               </select>
             </div>
           </section>
+
+          {/* Button inside the grid */}
+          <div className={styles.buttonContainer}>
+            <button className={styles.updateButton} onClick={() => setIsPopupVisible(true)}>
+              Update Settings
+            </button>
+          </div>
         </div>
+
+        {/* Popup for Confirmation */}
+        {isPopupVisible && (
+          <Popup
+            title="Confirm Update"
+            message="Are you sure you want to update the settings?"
+            onClose={() => setIsPopupVisible(false)}
+            onConfirm={() => {
+              saveSettings();
+              setIsPopupVisible(false);
+            }}
+          />
+        )}
       </div>
     </div>
   );

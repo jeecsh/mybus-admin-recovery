@@ -28,13 +28,18 @@
     color: #64748b;
     font-size: 16px;
   }
-  
   .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
     gap: 24px;
     max-width: 1200px;
     margin: 0 auto;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: center; /* Center the button */
+margin-top: 70px;
   }
   
   .thresholdGroup {
@@ -259,4 +264,56 @@
     .thresholdGroup {
       grid-column: auto;
     }
+  }
+
+
+
+
+  .numberInput {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-left: auto;
+  }
+  
+  .numberInput:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 0 2px rgba(0,102,204,0.2);
+  }
+  
+  /* Adjust the settingRow to accommodate the number input */
+  .settingRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .settingRow:last-child {
+    border-bottom: none;
+  }
+
+
+
+  .updateButton {
+    background-color: #003976; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: Manrope;
+  }
+  
+  .updateButton:hover {
+  scale: 1.05;
   }
